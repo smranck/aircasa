@@ -1,20 +1,9 @@
 {
-  "name": "airbnb",
-  "scripts": {
-  },
-  "env": {
-  },
-  "formation": {
-    "web": {
-      "quantity": 1
-    }
-  },
-  "addons": [
-
-  ],
+  "name": "aircasa",
+  "repository": "https://github.com/hrsf87-casa/aircasa.git",
   "buildpacks": [
     {
-      "url": "heroku/nodejs"
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
     }
   ]
 }
