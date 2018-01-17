@@ -1,14 +1,42 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const passport = require('./userAuth/passport');
+const auth = require('./userAuth/auth');
+
 const router = express.Router();
 const {
   getAllListings,
-  user,
   getListingsByCity,
   checkAvailability,
   saveReservation,
   getListingById,
+  userHelper,
 } = require('../database');
 const googleAPI = require('./../api/gMapClient.js');
+
+router.use(cookieParser());
+router.use(session({ secret: 'airbnb-casa', resave: false, saveUninitialized: false }));
+router.use(passport.initialize());
+router.use(passport.session());
+
+// router.get('/listings', passport.authenticate('local', { failureRedirect: '/login' }), reactRoute);
+
+// passport
+router.post('/signup', async (req, res) => {
+  try {
+    if ((await userHelper.getUser(req.body.username))) {
+      return res.sendStatus(409);
+    }
+    await auth.addUser(req.body.username, req.body.password, req.body.phoneNumber, req.body.email);
+    return res.sendStatus(200);
+  } catch (err) {
+    return res.status(401).json(err.stack);
+  }
+});
+
+router.post('/login', passport.authenticate('local'), (req, res) =>
+  res.status(200).json({ userId: req.session.passport.user }));
 
 router.post('/api/listings/search', async (req, res) => {
   try {

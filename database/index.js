@@ -5,4 +5,5 @@ module.exports = {
   checkAvailability: require('./queries/checkAvailability.js'),
   saveReservation: require('./queries/saveReservation.js'),
   getListingById: require('./queries/getListingById.js'),
+  userHelper: require('./queries/userHelper.js'),
 };
