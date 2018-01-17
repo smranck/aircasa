@@ -14,9 +14,12 @@ export default class ListingEntry extends React.Component {
     return (
       <div className="listingDiv">
         <Link
-          to={`/listings/${this.props.state}--${this.props.city}/${
-            this.props.listing.id
-          }`}
+          to={{
+            pathname: `/listings/${this.props.state}--${this.props.city}/${
+              this.props.listing.id
+            }`,
+            state: { listing: this.props.listing },
+          }}
         >
           <img className="listingImage" src={this.props.listing.pic_url} />
           <h5> {this.props.listing.name}</h5>
