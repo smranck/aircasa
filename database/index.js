@@ -6,4 +6,5 @@ module.exports = {
   saveReservation: require('./queries/saveReservation.js'),
   getListingById: require('./queries/getListingById.js'),
   userHelper: require('./queries/userHelper.js'),
+  makeListing: require('./queries/makeListing'),
 };
