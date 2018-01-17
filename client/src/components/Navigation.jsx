@@ -37,3 +37,5 @@ export default class Navigation extends React.Component {
     );
   }
 }
+
+// conditional rendering depending on the current path you are in

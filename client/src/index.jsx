@@ -9,17 +9,18 @@ import Navigation from './components/Navigation.jsx';
 import App from './components/App.jsx';
 import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
+import Main from './components/Main.jsx';
 
 ReactDOM.render(
   <BrowserRouter history={BrowserHistory}>
     <div>
-      <Route exact path="/" component={App} />
-      <Route path="/" component={Navigation} />
+      <Route path="/signup" component={Signup} />
+      <Route path="/login" component={Login} />
+      <Route exact path="/" component={Main} />
       <Route path="/bookings" component={UserComponent} />
       <Route exact path="/listings/:state--:city" component={Listings} />
       <Route path="/listings/:state--:city/:id" component={ListingEntryDetails} />
-      <Route path="/signup" component={Signup} />
-      <Route path="/login" component={Login} />
+      <Route exact path="/" component={App} />
     </div>
   </BrowserRouter>,
   document.getElementById('app'),
