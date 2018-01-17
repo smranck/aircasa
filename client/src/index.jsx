@@ -8,6 +8,8 @@ import UserComponent from './components/UserComponent.jsx';
 import ListingEntryDetails from './components/ListingEntryDetails.jsx';
 import Navigation from './components/Navigation.jsx';
 import App from './components/App.jsx';
+import Login from './components/Login.jsx';
+import Signup from './components/Signup.jsx';
 
 ReactDOM.render(
   <BrowserRouter history={BrowserHistory}>
@@ -20,6 +22,8 @@ ReactDOM.render(
         path="/listings/:state--:city/:id"
         component={ListingEntryDetails}
       />
+      <Route path="/signup" component={Signup} />
+      <Route path="/login" component={Login} />
     </div>
   </BrowserRouter>,
   document.getElementById('app'),
