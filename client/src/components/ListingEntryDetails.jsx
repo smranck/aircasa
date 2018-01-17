@@ -25,7 +25,7 @@ export default class ListingEntryDetails extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.location.state.listing) {
+    if (this.props.location.state) {
       this.setState({ listing: this.props.location.state.listing });
     } else {
       this.getListing();
@@ -33,7 +33,7 @@ export default class ListingEntryDetails extends React.Component {
   }
 
   getListing() {
-    fetch(`/api/listing/details/${this.state.listingId}`)
+    fetch(`/api/listings/details/${this.state.listingId}`)
       .then(resp => resp.json())
       .then((listing) => {
         this.setState({ listing });
