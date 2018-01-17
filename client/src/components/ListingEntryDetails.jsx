@@ -19,48 +19,31 @@ export default class ListingEntryDetails extends React.Component {
     super(props);
 
     this.state = {
-      listingId: this.props.match.params.id || this.props.id,
-      latLong: null, // should be this format {lat: 42.2828747, lng: -71.13467840000001}
+      listingId: this.props.match.params.id,
       listing: {},
-      mapVis: true, // to prevent map from rendering if no latLong
-      address: '',
     };
-    console.log(this);
-    // this.getAllDetails = this.getAllDetails.bind(this);
-    console.log('listing entry details', this.props.location);
   }
 
   componentDidMount() {
-    this.setState({ listing: this.props.location.state.listing });
+    if (this.props.location.state.listing) {
+      this.setState({ listing: this.props.location.state.listing });
+    } else {
+      this.getListing();
+    }
   }
 
-  // getAllDetails(listingId) {
-  //   //gets listing info from DB and latLong from Google Geocode API
-  //   var context = this;
-  //   axios
-  //     .get('/listings-iris', { params: { listingId: listingId } })
-  //     .then((response) => {
-  //       context.setState({
-  //         listing: response.data.listing,
-  //         latLong: response.data.latLong,
-  //         address: response.data.address,
-  //       });
-  //     })
-  //     // TO DO: render something else when there is an error
-  //     // MAYBE A MODAL??
-  //     .catch((err) => {
-  //       context.setState({ mapVis: false });
-  //       console.log('received error', err);
-  //     });
-  // }
-
-  // TO DO: if no latLong returned from the GET request, this.state.mapVis needs to be false
+  getListing() {
+    fetch(`/api/listing/details/${this.state.listingId}`)
+      .then(resp => resp.json())
+      .then((listing) => {
+        this.setState({ listing });
+      })
+      .catch(console.error);
+  }
 
   render() {
     return (
       <div>
-        <Link to="/"> Go back </Link>
-
         <div className="listgroup-container">
           <ListGroup className="listgroup-info">
             <ListGroupItem>
@@ -99,15 +82,7 @@ export default class ListingEntryDetails extends React.Component {
               <ListGroupItemText>{this.state.listing.cancellation_policy}</ListGroupItemText>
             </ListGroupItem>
           </ListGroup>
-
-          <img src={this.state.listing.pic_url} />
-        </div>
-      </div>
-    );
-  }
-}
-
-/* /* <div className="listgroup-bookingwindow">
+          {/* <div className="listgroup-bookingwindow">
             <BookingWindow
               key={this.state.listing.id}
               maxGuests={this.state.listing.num_guests}
@@ -115,7 +90,13 @@ export default class ListingEntryDetails extends React.Component {
               rating={this.state.listing.rating}
               listingId={this.state.listing.id}
             />
-          </div>
-        </div>
+          </div> */}
 
-           <GMap latLong={this.state.latLong} /> * */
+          {/* <GMap latLong={this.state.latLong} /> */}
+
+          <img src={this.state.listing.pic_url} alt="listing-pic" />
+        </div>
+      </div>
+    );
+  }
+}
