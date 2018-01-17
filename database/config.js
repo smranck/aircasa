@@ -1,11 +1,7 @@
 const mysql = require('mysql');
 
-const connection = mysql.createConnection(process.env.DATABASE_URL);
-
-connection.connect((err) => {
-  if (err) {
-    console.error('error connecting to database, ', err);
-  }
+const connection = mysql.createPool(process.env.DATABASE_URL, {
+  connectionLimit: 2,
 });
 
 connection.queryAsync = function queryAsync(...args) {

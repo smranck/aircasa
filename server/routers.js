@@ -37,6 +37,15 @@ router.post('/signup', async (req, res) => {
 router.post('/login', passport.authenticate('local'), (req, res) =>
   res.status(200).json({ userId: req.session.passport.user }));
 
+router.get('/api/listings/details/:id', async (req, res) => {
+  try {
+    const listing = await getListingById(req.params.id);
+    return res.status(200).json(listing);
+  } catch (err) {
+    return res.status(500).json(err.stack);
+  }
+});
+
 router.post('/api/listings/search', async (req, res) => {
   try {
     const listings = await getListingsByCity(req.body.city, req.body.state);
