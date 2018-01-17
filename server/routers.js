@@ -2,30 +2,25 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
+
 const passport = require('./userAuth/passport');
 const auth = require('./userAuth/auth');
-
-const router = express.Router();
+const googleAPI = require('../api/gMapClient.js');
 const {
-  getAllListings,
   getListingsByCity,
-  checkAvailability,
-  saveReservation,
   getListingById,
   userHelper,
   booking,
   makeListing,
 } = require('../database');
 
+const router = express.Router();
 const reactRoute = (req, res) => res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
-const googleAPI = require('./../api/gMapClient.js');
 
 router.use(cookieParser());
 router.use(session({ secret: 'airbnb-casa', resave: false, saveUninitialized: false }));
 router.use(passport.initialize());
 router.use(passport.session());
-
-// router.get('/listings', passport.authenticate('local', { failureRedirect: '/login' }), reactRoute);
 
 router.post('/signup', async (req, res) => {
   try {
