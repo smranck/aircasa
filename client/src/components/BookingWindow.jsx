@@ -29,14 +29,14 @@ export default class BookingWindow extends React.Component {
   }
 
   checkDates(dates) {
-    var app = this;
+    const app = this;
     axios
       .post('/bookings-james', {
         data: dates,
         listing: app.state.listingId,
         user: app.state.userId,
       })
-      .then(function(response) {
+      .then((response) => {
         if (response.data === 'failure') {
           app.notifyUnavailable();
         }
@@ -44,31 +44,28 @@ export default class BookingWindow extends React.Component {
           app.notifySuccess();
         }
       })
-      .catch(function(error) {
-        console.log('failed due to ' + error);
+      .catch((error) => {
+        console.log(`failed due to ${error}`);
       });
   }
 
   getDates() {
-    var startDateParts = this.state.startDate.toString().split('-');
-    var endDateParts = this.state.endDate.toString().split('-');
+    const startDateParts = this.state.startDate.toString().split('-');
+    const endDateParts = this.state.endDate.toString().split('-');
 
-    var [year, dayStart, startMonth] = [
+    const [year, dayStart, startMonth] = [
       startDateParts[0],
       parseInt(startDateParts[2]),
       parseInt(startDateParts[1]),
     ];
-    var [dayEnd, endMonth] = [
-      parseInt(endDateParts[2]),
-      parseInt(endDateParts[1]),
-    ];
-    var month = parseInt(startMonth);
+    const [dayEnd, endMonth] = [parseInt(endDateParts[2]), parseInt(endDateParts[1])];
+    let month = parseInt(startMonth);
 
-    var dates = [];
-    var shortMonths = [4, 6, 9, 11];
+    const dates = [];
+    const shortMonths = [4, 6, 9, 11];
 
-    var i = dayStart;
-    var max;
+    let i = dayStart;
+    let max;
     if (dayStart > dayEnd) {
       shortMonths.includes(startMonth) ? (max = 30) : (max = 31);
       startMonth === 2 ? (max = 28) : (max = max);
@@ -79,10 +76,10 @@ export default class BookingWindow extends React.Component {
     while (month <= parseInt(endMonth)) {
       while (i <= max) {
         i < 10 ? (i = `0${i}`) : (i = i);
-        var formattedDate = `${year}-${month}-${i} 00:00:00`;
+        const formattedDate = `${year}-${month}-${i} 00:00:00`;
         dates.push(formattedDate);
-        var totalPrice = dates.length * this.state.price;
-        this.setState({ totalPrice: totalPrice });
+        const totalPrice = dates.length * this.state.price;
+        this.setState({ totalPrice });
         i++;
       }
       i = 1;
@@ -117,34 +114,25 @@ export default class BookingWindow extends React.Component {
   }
 
   isValidDateChoice(endDateUnix) {
-    return this.state.startDate === undefined ||
-      endDateUnix < Date.parse(this.state.startDate)
-      ? false
-      : true;
+    return !(this.state.startDate === undefined || endDateUnix < Date.parse(this.state.startDate));
   }
 
   notifyOfBadDateSelection() {
-    this.state.resultMessage =
-      "Please select a check-in date that's earlier than check-out date.";
+    this.state.resultMessage = "Please select a check-in date that's earlier than check-out date.";
     this.setState({
       modalOpen: true,
     });
   }
 
   notifyUnavailable() {
-    this.state.resultMessage =
-      'Sorry, this property is not available at that time.';
+    this.state.resultMessage = 'Sorry, this property is not available at that time.';
     this.setState({
       modalOpen: true,
     });
   }
 
   notifySuccess() {
-    this.state.resultMessage = `Your reservation is booked! ${moment(
-      this.state.startDate,
-    ).format('dddd, MMMM Do YYYY')} - ${moment(this.state.endDate).format(
-      'dddd, MMMM Do YYYY',
-    )}`; // bring in moment to make these human readable
+    this.state.resultMessage = `Your reservation is booked! ${moment(this.state.startDate).format('dddd, MMMM Do YYYY')} - ${moment(this.state.endDate).format('dddd, MMMM Do YYYY')}`; // bring in moment to make these human readable
     this.setState({
       modalOpen: true,
     });
@@ -156,7 +144,7 @@ export default class BookingWindow extends React.Component {
       this.state.endDate &&
       this.isValidDateChoice(Date.parse(this.state.endDate))
     ) {
-      var dates = this.getDates();
+      const dates = this.getDates();
       this.checkDates(dates);
     } else {
       this.notifyOfBadDateSelection();
@@ -171,12 +159,9 @@ export default class BookingWindow extends React.Component {
           <h1>
             {' '}
             ${this.props.price}{' '}
-            <span style={{ 'font-size': 'medium', 'font-weight': '200' }}>
-              {' '}
-              per night{' '}
-            </span>
+            <span style={{ 'font-size': 'medium', 'font-weight': '200' }}> per night </span>
           </h1>
-          <h2> Rating: {this.state.rating.map((r) => emojify(':star:'))}</h2>
+          <h2> Rating: {this.state.rating.map(r => emojify(':star:'))}</h2>
           <hr />
 
           <div className="bookingDatesBox">
@@ -201,9 +186,7 @@ export default class BookingWindow extends React.Component {
             </h2>
           </div>
           <div>
-            {this.state.totalPrice ? (
-              <h2> Total price: ${this.state.totalPrice}</h2>
-            ) : null}
+            {this.state.totalPrice ? <h2> Total price: ${this.state.totalPrice}</h2> : null}
           </div>
           <button
             className="dateSelectionSubmit"

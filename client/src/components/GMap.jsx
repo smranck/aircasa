@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 // import API from './../../../api/env.js';
 import GoogleMapReact from 'google-map-react';
-import Marker from './Marker.jsx';
-
-const MapContainer = ({ latLong }) => (
-  <div>
-    <Marker />
-  </div>
-);
 
 export default class GMap extends React.Component {
   constructor(props) {

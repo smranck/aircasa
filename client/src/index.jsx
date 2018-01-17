@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Search from './components/Search.jsx';
+import 'bootstrap/dist/css/bootstrap.css';
 import Listings from './components/Listings.jsx';
 import { BrowserRouter, Route, BrowserHistory, Link } from 'react-router-dom';
 import UserComponent from './components/UserComponent.jsx';

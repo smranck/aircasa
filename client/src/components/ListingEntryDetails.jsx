@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import BookingWindow from './BookingWindow.jsx';
 import GMap from './GMap.jsx';
 
-import 'bootstrap/dist/css/bootstrap.css';
 import {
   ListGroup,
   ListGroupItem,
@@ -60,7 +59,7 @@ export default class ListingEntryDetails extends React.Component {
   render() {
     return (
       <div>
-        <Link to={'/'}> Go back </Link>
+        <Link to="/"> Go back </Link>
 
         <div className="listgroup-container">
           <ListGroup className="listgroup-info">
@@ -71,47 +70,33 @@ export default class ListingEntryDetails extends React.Component {
             <ListGroupItem>
               <ListGroupItemHeading>About the Listing</ListGroupItemHeading>
               <ListGroupItemText>
-                {this.state.listing.summary +
-                  ' ' +
-                  this.state.listing.description}
+                {`${this.state.listing.summary} ${this.state.listing.description}`}
               </ListGroupItemText>
             </ListGroupItem>
 
             <ListGroupItem>
               <ListGroupItemHeading>Neighborhood</ListGroupItemHeading>
-              <ListGroupItemText>
-                {this.state.listing.neighborhood}
-              </ListGroupItemText>
+              <ListGroupItemText>{this.state.listing.neighborhood}</ListGroupItemText>
             </ListGroupItem>
 
             <ListGroupItem>
-              <ListGroupItemHeading>
-                Maximum Number of Guests
-              </ListGroupItemHeading>
-              <ListGroupItemText>
-                {this.state.listing.num_guests}
-              </ListGroupItemText>
+              <ListGroupItemHeading>Maximum Number of Guests</ListGroupItemHeading>
+              <ListGroupItemText>{this.state.listing.num_guests}</ListGroupItemText>
             </ListGroupItem>
 
             <ListGroupItem>
               <ListGroupItemHeading>Bedrooms</ListGroupItemHeading>
-              <ListGroupItemText>
-                {this.state.listing.bedrooms}
-              </ListGroupItemText>
+              <ListGroupItemText>{this.state.listing.bedrooms}</ListGroupItemText>
             </ListGroupItem>
 
             <ListGroupItem>
               <ListGroupItemHeading>Bathrooms</ListGroupItemHeading>
-              <ListGroupItemText>
-                {this.state.listing.bathrooms}
-              </ListGroupItemText>
+              <ListGroupItemText>{this.state.listing.bathrooms}</ListGroupItemText>
             </ListGroupItem>
 
             <ListGroupItem>
               <ListGroupItemHeading>Cancellation Policy</ListGroupItemHeading>
-              <ListGroupItemText>
-                {this.state.listing.cancellation_policy}
-              </ListGroupItemText>
+              <ListGroupItemText>{this.state.listing.cancellation_policy}</ListGroupItemText>
             </ListGroupItem>
           </ListGroup>
 

@@ -10,7 +10,6 @@ export default class Listings extends React.Component {
     this.state = {
       listings: [],
     };
-
     console.log(this.props);
   }
 
@@ -27,7 +26,7 @@ export default class Listings extends React.Component {
       .then((response) => {
         this.setState({ listings: response.data });
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
   }
 
   render() {
@@ -36,16 +35,14 @@ export default class Listings extends React.Component {
         <h3>
           <u>All listings</u>
         </h3>
-        {this.state.listings.map((listing) => {
-          return (
-            <ListingEntry
-              listing={listing}
-              key={listing.id}
-              state={this.props.match.params.state}
-              city={this.props.match.params.city}
-            />
-          );
-        })}
+        {this.state.listings.map(listing => (
+          <ListingEntry
+            listing={listing}
+            key={listing.id}
+            state={this.props.match.params.state}
+            city={this.props.match.params.city}
+          />
+        ))}
       </div>
     );
   }

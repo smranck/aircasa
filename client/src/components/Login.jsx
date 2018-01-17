@@ -39,7 +39,7 @@ export default class Login extends React.Component {
   }
 
   handleSubmit() {
-    let { username, password } = this.state;
+    const { username, password } = this.state;
     if (username === '') {
       return this.setState({
         displayMessage: 'Login requires a username',
@@ -50,16 +50,15 @@ export default class Login extends React.Component {
       body: JSON.stringify({ username, password }),
       headers: { 'content-type': 'application/JSON' },
     })
-      .then(
-        (resp) =>
-          resp.status === 200
-            ? this.setState({
-                successfulLogin: true,
-                currentUserId: resp.body.userId,
-              }) //how to handle the userId that is sent in
-            : this.setState({
-                displayMessage: `Set the error here. resp.status?`,
-              }), //should be 401 only
+      .then(resp =>
+        (resp.status === 200
+          ? this.setState({
+            successfulLogin: true,
+            currentUserId: resp.body.userId,
+          }) // how to handle the userId that is sent in
+          : this.setState({
+            displayMessage: 'Set the error here. resp.status?',
+          })), // should be 401 only
       )
       .catch(console.error); // should be 500 only
   }
@@ -90,7 +89,7 @@ export default class Login extends React.Component {
                     name="username"
                     value={this.state.username}
                     placeholder="Enter your name"
-                    onChange={(event) => this.handleChange(event)}
+                    onChange={event => this.handleChange(event)}
                   />
                   <br />
                   <input
@@ -98,7 +97,7 @@ export default class Login extends React.Component {
                     name="password"
                     value={this.state.password}
                     placeholder="Enter your password"
-                    onChange={(event) => this.handleChange(event)}
+                    onChange={event => this.handleChange(event)}
                   />
                 </label>
                 <Button onClick={() => this.handleSubmit()} color="primary">

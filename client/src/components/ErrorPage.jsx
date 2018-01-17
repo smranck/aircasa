@@ -1,12 +1,14 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import er from '../../dist/500error.png';
 
-
-var ErrorPage = (props) => (
+const ErrorPage = props => (
   <div>
-  	<img src={er} />
-  	<Link to="/" > <button> Go Home </button></Link>
+    <img src={er} />
+    <Link to="/">
+      {' '}
+      <button> Go Home </button>
+    </Link>
   </div>
 );
 

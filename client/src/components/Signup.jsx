@@ -34,7 +34,9 @@ export default class Signup extends React.Component {
   }
 
   handleSubmit() {
-    let { username, password, phoneNumber, email } = this.state;
+    const {
+      username, password, phoneNumber, email,
+    } = this.state;
     if (username === '') {
       return this.setState({
         displayMessage: 'Login requires a username',
@@ -57,21 +59,24 @@ export default class Signup extends React.Component {
     }
     fetch('/signup', {
       method: 'POST',
-      body: JSON.stringify({ username, password, email, phoneNumber }),
+      body: JSON.stringify({
+        username,
+        password,
+        email,
+        phoneNumber,
+      }),
       headers: { 'content-type': 'application/JSON' },
     })
-      .then(
-        (resp) =>
-          resp.status === 200
-            ? this.setState({ successfulSignup: true })
-            : this.setState({
-                displayMessage: `Set the error here, Should be 409`,
-              }),
-      )
+      .then(resp =>
+        (resp.status === 200
+          ? this.setState({ successfulSignup: true })
+          : this.setState({
+            displayMessage: 'Set the error here, Should be 409',
+          })))
       .catch(console.error); // should be 500 only
   }
 
-  //todo: render displaymessage!!
+  // todo: render displaymessage!!
   render() {
     const styles = {
       body: {
@@ -86,14 +91,10 @@ export default class Signup extends React.Component {
     return (
       <div className="signup-component" style={styles.body}>
         {this.state.successfulSignup ? (
-          <Redirect to={{ pathname: `/login` }} />
+          <Redirect to={{ pathname: '/login' }} />
         ) : (
           <div>
-            {this.state.displayMessage ? (
-              <div>{this.state.displayMessage}</div>
-            ) : (
-              undefined
-            )}
+            {this.state.displayMessage ? <div>{this.state.displayMessage}</div> : undefined}
             <form>
               <br />
               <br />
@@ -104,7 +105,7 @@ export default class Signup extends React.Component {
                   name="username"
                   value={this.state.username}
                   placeholder="Enter your name"
-                  onChange={(event) => this.handleChange(event)}
+                  onChange={event => this.handleChange(event)}
                 />
                 <br />
                 <input
@@ -112,7 +113,7 @@ export default class Signup extends React.Component {
                   name="password"
                   value={this.state.password}
                   placeholder="Enter your password"
-                  onChange={(event) => this.handleChange(event)}
+                  onChange={event => this.handleChange(event)}
                 />
                 <br />
                 <input
@@ -120,7 +121,7 @@ export default class Signup extends React.Component {
                   name="email"
                   value={this.state.email}
                   placeholder="Enter your email address"
-                  onChange={(event) => this.handleChange(event)}
+                  onChange={event => this.handleChange(event)}
                 />
                 <br />
                 <input
@@ -128,7 +129,7 @@ export default class Signup extends React.Component {
                   name="phoneNumber"
                   value={this.state.phoneNumber}
                   placeholder="Enter your phone number"
-                  onChange={(event) => this.handleChange(event)}
+                  onChange={event => this.handleChange(event)}
                 />
               </label>
               <br />
