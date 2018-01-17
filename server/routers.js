@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const path = require('path');
 const passport = require('./userAuth/passport');
 const auth = require('./userAuth/auth');
 
@@ -12,103 +13,119 @@ const {
   saveReservation,
   getListingById,
   userHelper,
+  booking,
 } = require('../database');
+
+const reactRoute = (req, res) => res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
 const googleAPI = require('./../api/gMapClient.js');
 
 router.use(cookieParser());
-router.use(
-  session({ secret: 'airbnb-casa', resave: false, saveUninitialized: false }),
-);
+router.use(session({ secret: 'airbnb-casa', resave: false, saveUninitialized: false }));
 router.use(passport.initialize());
 router.use(passport.session());
 
 // router.get('/listings', passport.authenticate('local', { failureRedirect: '/login' }), reactRoute);
 
-// passport
 router.post('/signup', async (req, res) => {
   try {
     if (await userHelper.getUser(req.body.username)) {
       return res.sendStatus(409);
     }
-    await auth.addUser(
-      req.body.username,
-      req.body.password,
-      req.body.phoneNumber,
-      req.body.email,
-    );
+    await auth.addUser(req.body.username, req.body.password, req.body.phoneNumber, req.body.email);
     return res.sendStatus(200);
   } catch (err) {
-    return res.status(401).json(err.stack);
+    return res.status(500).json(err.stack);
   }
 });
 
 router.post('/login', passport.authenticate('local'), (req, res) =>
-  res.status(200).json({ userId: req.session.passport.user }),
-);
+  res.status(200).json({ userId: req.session.passport.user }));
 
 router.post('/api/listings/search', async (req, res) => {
   try {
     const listings = await getListingsByCity(req.body.city, req.body.state);
-    res.status(200).json(listings);
+    return res.status(200).json(listings);
   } catch (err) {
-    res.status(500).json(err.stack);
+    return res.status(500).json(err.stack);
   }
 });
 
-router.post('*/bookings-james', (req, res) => {
-  let dates = req.body.data;
-  let listingId = req.body.listing;
-  let userId = req.body.user;
-  checkAvailability(listingId, dates, (results) => {
-    results
-      ? saveReservation(listingId, userId, dates, (results) =>
-          res.send('success'),
-        )
-      : res.send('failure');
-  });
-});
-
-router.get('*/listings-ted', (req, res) =>
-  getAllListings((results) => {
-    res.json(results);
-  }),
-);
-
-router.get('*/listings-iris', (req, res) => {
-  var finalResults = {};
-  getListingById(req.query.listingId)
-    .then((listingObj) => {
-      finalResults.listing = listingObj[0];
-      return googleAPI.getAddress(JSON.stringify(listingObj));
-    })
-    .then((addr) => {
-      finalResults.address = addr;
-      return googleAPI.getLatLong(addr, (data) => {
-        finalResults.latLong = data.json.results[0].geometry.location;
-        res.json(finalResults);
+router.post('/api/bookings/reserve', async (req, res) => {
+  try {
+    if (!req.session.passport) {
+      return res.sendStatus(401);
+    }
+    const bookedDays = await booking.checkIfBooked(
+      req.body.listingId,
+      req.body.start,
+      req.body.end,
+    );
+    if (bookedDays) {
+      return res.status(200).json({
+        isBooked: false,
+        reason: `Already booked during from ${new Date(bookedDays[0]).toLocaleDateString('en-US')} to ${new Date(bookedDays[1]).toLocaleDateString('en-US')}`,
       });
-    })
-    .catch((err) => res.json(err));
+    }
+    const reservation = await booking.makeReservation(
+      req.session.passport.user,
+      req.body.listingId,
+      req.body.start,
+      req.body.end,
+    );
+    return res.status(200).json({
+      isBooked: true,
+      bookingId: reservation.id,
+    });
+  } catch (err) {
+    return res.status(500).json(err.stack);
+  }
 });
 
-router.get('/usercomponent-v', (req, res) =>
-  user.getAllBooking(function(err, results) {
-    if (err) {
-      return res.statusCode(500);
-    } else {
-      return res.json(results);
+router.get('/api/bookings/list', async (req, res) => {
+  try {
+    if (!req.session.passport) {
+      return res.sendStatus(401);
     }
-  }),
-);
-router.post('/usercomponent-v', (req, res) =>
-  user.cancelReservation(function(err, results) {
-    //console.log(req.body.id)
-    if (err) {
-      console.log(err);
-    } else {
-      res.json(results);
+    const reservations = await booking.getAllReservations(req.session.passport.user);
+    const reservationsWithListings = await Promise.all(reservations.map(reservation =>
+      new Promise(async (resolve, reject) => {
+        try {
+          const listing = await getListingById(reservation.listing_id);
+          return resolve({
+            id: reservation.id,
+            start: reservation.startDate,
+            end: reservation.endDate,
+            listing,
+          });
+        } catch (err) {
+          return reject(err);
+        }
+      })));
+    return res.status(200).json(reservationsWithListings);
+  } catch (err) {
+    return res.status(500).json(err.stack);
+  }
+});
+
+router.post('/api/bookings/cancel', async (req, res) => {
+  try {
+    if (!req.session.passport) {
+      return res.sendStatus(401);
     }
-  }, req.body.id),
-);
+    const reservation = await booking.getReservation(req.body.bookingId);
+    if (reservation.user_id !== req.session.passport.user) {
+      return res.sendStatus(401);
+    }
+    await booking.cancelReservation(req.body.bookingId);
+    return res.sendStatus(200);
+  } catch (err) {
+    return res.status(500).json(err.stack);
+  }
+});
+
+router.get('/login', reactRoute);
+router.get('/signup', reactRoute);
+router.get('/listings*', reactRoute);
+router.get('/bookings*', reactRoute);
 
 module.exports = router;

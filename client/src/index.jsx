@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import Search from './components/Search.jsx';
 import Listings from './components/Listings.jsx';
 import { BrowserRouter, Route, BrowserHistory, Link } from 'react-router-dom';
-import Main from './components/Main.jsx';
 import UserComponent from './components/UserComponent.jsx';
 import ListingEntryDetails from './components/ListingEntryDetails.jsx';
 import Navigation from './components/Navigation.jsx';
@@ -18,10 +17,7 @@ ReactDOM.render(
       <Route path="/" component={Navigation} />
       <Route path="/bookings" component={UserComponent} />
       <Route exact path="/listings/:state--:city" component={Listings} />
-      <Route
-        path="/listings/:state--:city/:id"
-        component={ListingEntryDetails}
-      />
+      <Route path="/listings/:state--:city/:id" component={ListingEntryDetails} />
       <Route path="/signup" component={Signup} />
       <Route path="/login" component={Login} />
     </div>

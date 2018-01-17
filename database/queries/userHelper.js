@@ -1,9 +1,7 @@
 const connection = require('../config.js');
 
-const getUser = (username) =>
-  connection
-    .queryAsync('SELECT * FROM users WHERE name = ?', [username])
-    .then((data) => data[0]);
+const getUser = username =>
+  connection.queryAsync('SELECT * FROM users WHERE name = ?', [username]).then(data => data[0]);
 
 const createUser = (username, password, phoneNumber, email) =>
   connection.queryAsync(
@@ -11,10 +9,8 @@ const createUser = (username, password, phoneNumber, email) =>
     [username, password, phoneNumber, email],
   );
 
-const getUserById = (id) =>
-  connection
-    .queryAsync('SELECT * FROM users WHERE id = ?', [id])
-    .then((data) => data[0]);
+const getUserById = id =>
+  connection.queryAsync('SELECT * FROM users WHERE id = ?', [id]).then(data => data[0]);
 
 module.exports = {
   getUser,
