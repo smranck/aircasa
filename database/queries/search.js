@@ -1,6 +1,9 @@
-const connection = require('./../config.js');
+const connection = require('../config');
 
-const getListingsByCity = async (city, state) => {
+const byId = id =>
+  connection.queryAsync('SELECT * FROM listings WHERE id = ?', [id]).then(data => data[0]);
+
+const byCityState = async (city, state) => {
   const listingsInCity = await connection.queryAsync(
     'SELECT * FROM listings WHERE city = ? AND state = ?',
     [city, state],
@@ -12,4 +15,7 @@ const getListingsByCity = async (city, state) => {
   return [...listingsInCity, ...listingsInState];
 };
 
-module.exports = getListingsByCity;
+module.exports = {
+  byId,
+  byCityState,
+};

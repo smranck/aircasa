@@ -1,21 +1,20 @@
-const connection = require('../config.js');
+const connection = require('../config');
 
-const getAllReservations = userId =>
+const getAllByUserId = userId =>
   connection.queryAsync(
     'SELECT bookings.* FROM bookings RIGHT OUTER JOIN listings ON bookings.listing_id = listings.id WHERE bookings.user_id = ?',
     [userId],
   );
 
-const getReservation = bookingId =>
+const getById = bookingId =>
   connection.queryAsync('SELECT * FROM bookings WHERE id = ?', [bookingId]).then(data => data[0]);
 
-const getReservationsForListing = listingId =>
+const getAllByListingId = listingId =>
   connection.queryAsync('SELECT * FROM bookings WHERE listing_id = ?', [listingId]);
 
-const cancelReservation = bookingId =>
-  connection.queryAsync('DELETE FROM bookings WHERE id = ?', [bookingId]);
+const cancel = bookingId => connection.queryAsync('DELETE FROM bookings WHERE id = ?', [bookingId]);
 
-const makeReservation = (userId, listingId, startDate, endDate) =>
+const make = (userId, listingId, startDate, endDate) =>
   connection
     .queryAsync(
       'INSERT INTO bookings (user_id, listing_id, startDate, endDate) VALUES (?, ?, ?, ?)',
@@ -29,10 +28,10 @@ const makeReservation = (userId, listingId, startDate, endDate) =>
     .then(data => connection.queryAsync('SELECT * FROM bookings WHERE id = ?', [data.insertId]))
     .then(data => data[0]);
 
-const checkIfBooked = async (listingId, start, end) => {
+const check = async (listingId, start, end) => {
   const startDate = new Date(start).getTime();
   const endDate = new Date(end).getTime();
-  const currentBookings = await getReservationsForListing(listingId);
+  const currentBookings = await getAllByListingId(listingId);
   for (let i = 0; i < currentBookings.length; i += 1) {
     const bookedStart = new Date(currentBookings[i].startDate).getTime();
     const bookedEnd = new Date(currentBookings[i].endDate).getTime();
@@ -50,10 +49,10 @@ const checkIfBooked = async (listingId, start, end) => {
 };
 
 module.exports = {
-  getAllReservations,
-  cancelReservation,
-  makeReservation,
-  getReservationsForListing,
-  checkIfBooked,
-  getReservation,
+  getAllByUserId,
+  getById,
+  getAllByListingId,
+  cancel,
+  make,
+  check,
 };
