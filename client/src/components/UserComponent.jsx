@@ -1,23 +1,16 @@
 import React from 'react';
 import axios from 'axios';
 import moment from 'moment';
-import Modal from 'react-responsive-modal';
+import ListingEntry from './ListingEntry.jsx';
+import { CardColumns, Container, Jumbotron } from 'reactstrap';
 
 class UserComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentBookings: [
-        [
-          {
-            name: 'Booking 1',
-            description: 'A fake booking',
-            cancellation_policy: 'Early Cancelation results in a 500$ fee',
-            dateRented: '',
-          },
-        ],
-      ],
-      pastBookings: [[{ name: 'Old Booking', description: 'An old booking', dateRented: '' }]],
+      bookings: [],
+      currentBookings: [],
+      pastBookings: [],
       modalOpen: false,
       currentIndex: 0,
     };
@@ -27,109 +20,91 @@ class UserComponent extends React.Component {
     this.getCurrentBookings();
   }
 
-  cancelHandler(index, boolean) {
-    const idArray = [];
-    this.state.currentBookings[index].forEach((each) => {
-      idArray.push(each.id);
-    });
-    axios.post('/usercomponent-v', { id: idArray }).then((data) => {
-      const sortedData = this.sort(data);
-      this.setState({
-        currentBookings: sortedData[0],
-        pastBookings: sortedData[1],
-        currentIndex: 0,
-        modalOpen: !this.state.modalOpen,
-      });
-    });
-  }
+  // cancelHandler(index, boolean) {
+  //   const idArray = [];
+  //   this.state.currentBookings[index].forEach((each) => {
+  //     idArray.push(each.id);
+  //   });
+  //   axios.post('/usercomponent-v', { id: idArray }).then((data) => {
+  //     const sortedData = this.sort(data);
+  //     this.setState({
+  //       currentBookings: sortedData[0],
+  //       pastBookings: sortedData[1],
+  //       currentIndex: 0,
+  //       modalOpen: !this.state.modalOpen,
+  //     });
+  //   });
+  // }
+
   getCurrentBookings() {
-    axios.get('/usercomponent-v').then((data) => {
-      const sortedData = this.sort(data);
-      this.setState({
-        currentBookings: sortedData[0],
-        pastBookings: sortedData[1],
+    fetch('/api/bookings/list', {
+      method: 'GET',
+      credentials: 'include',
+    })
+      .then(resp => resp.json())
+      .then((bookings) => {
+        this.sortBookings(bookings);
       });
-    });
   }
 
-  sort(data) {
-    const past = [];
-    const current = [];
-    data.data.forEach((each) => {
-      if (each[each.length - 1] === 1) {
-        each.pop();
-        current.push(each);
+  sortBookings(bookings) {
+    for (let i = 0; i < bookings.length; i += 1) {
+      const currentTime = new Date().getTime();
+      const bookingEnd = new Date(bookings[i].end).getTime();
+      if (bookingEnd < currentTime) {
+        this.setState({ pastBookings: [...this.state.pastBookings, bookings[i]] });
       } else {
-        each.pop();
-        past.push(each);
+        this.setState({ currentBookings: [...this.state.currentBookings, bookings[i]] });
       }
-    });
-    return [current, past];
+    }
   }
 
-  modalHandler(index) {
-    console.log(index);
-    this.setState({
-      modalOpen: !this.state.modalOpen,
-      currentIndex: index,
-    });
-  }
+  // modalHandler(index) {
+  //   console.log(index);
+  //   this.setState({
+  //     modalOpen: !this.state.modalOpen,
+  //     currentIndex: index,
+  //   });
+  // }
 
   render() {
     return (
       <div>
         <div>
-          <h3>Current Bookings</h3>
-          <div>
-            {this.state.currentBookings.length > 0
-              ? this.state.currentBookings.map((each, i) => {
-                  const startDate = moment(each[0].dateRented).format('MMM Do YYYY');
-                  const endDate = moment(each[each.length - 1].dateRented).format('MMM Do YYYY');
-                  return (
-                    <div key={i}>
-                      <div>{each[0].name}</div>
-                      <div>{each[0].description}</div>
-                      <div>
-                        {startDate} - {endDate}
-                      </div>
-                      <button onClick={() => this.modalHandler(i)}>Cancel</button>
-                    </div>
-                  );
-                })
-              : 'No upcoming bookings. To make a reservation got to the home page'}
-          </div>
-          <h3>Past Bookings</h3>
-          <div>
-            {this.state.pastBookings.length > 0
-              ? this.state.pastBookings.map((each, i) => {
-                  const startDate = moment(each[0].dateRented).format('MMM Do YYYY');
-                  const endDate = moment(each[each.length - 1].dateRented).format('MMM Do YYYY');
-                  return (
-                    <div key={i}>
-                      <div>{each[0].name}</div>
-                      <div>{each[0].description}</div>
-                      <div>
-                        {startDate} - {endDate}
-                      </div>
-                    </div>
-                  );
-                })
-              : ''}
-          </div>
-          <Modal open={this.state.modalOpen} onClose={() => this.modalHandler(0)}>
-            <div>
-              {
-                <div>
-                  {this.state.currentBookings.length > 0
-                    ? this.state.currentBookings[this.state.currentIndex][0].cancellation_policy
-                    : ''}{' '}
-                  - Are you sure?
-                </div>
-              }
-            </div>
-            <button onClick={() => this.cancelHandler(this.state.currentIndex)}>Cancel Yes</button>
-            <button onClick={() => this.modalHandler(0)}>Cancel NO</button>
-          </Modal>
+          <Container style={{ paddingBottom: '10px' }}>
+            <center>
+              <h3>
+                <span style={{ textTransform: 'capitalize' }}>Current Bookings</span>
+              </h3>
+            </center>
+          </Container>
+          <Container>
+            <Jumbotron>
+              <CardColumns>
+                {this.state.currentBookings.map(booking => (
+                  <ListingEntry listing={booking.listing} booking={booking} key={booking.id} />
+                ))}
+              </CardColumns>
+            </Jumbotron>
+          </Container>
+          <div />
+          <Container style={{ paddingBottom: '10px' }}>
+            <center>
+              <h3>
+                <span style={{ textTransform: 'capitalize' }}>Past Bookings</span>
+              </h3>
+            </center>
+          </Container>
+          <Container>
+            <Jumbotron>
+              <CardColumns>
+                {this.state.pastBookings.map(booking => (
+                  <ListingEntry listing={booking.listing} booking={booking} key={booking.id} />
+                ))}
+              </CardColumns>
+            </Jumbotron>
+          </Container>
+          <div />
         </div>
       </div>
     );
