@@ -41,8 +41,8 @@
 }
 
 .mainSearch {
-  position: absolute;
-  top: 50%;
+  position: absolute; 
+  top: 30%;
   right: 50%;
 }
 
@@ -78,3 +78,5 @@ form {
 .listgroup-bookingwindow {
   flex: 1;
 }
+
+

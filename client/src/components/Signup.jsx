@@ -8,11 +8,12 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
+  Form,
   NavLink,
+  Input,
 } from 'reactstrap';
-import { Link, Redirect } from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import Search from './Search.jsx';
-import 'bootstrap/dist/css/bootstrap.css';
 
 export default class Signup extends React.Component {
   constructor(props) {
@@ -34,9 +35,7 @@ export default class Signup extends React.Component {
   }
 
   handleSubmit() {
-    const {
-      username, password, phoneNumber, email,
-    } = this.state;
+    const { username, password, phoneNumber, email } = this.state;
     if (username === '') {
       return this.setState({
         displayMessage: 'Login requires a username',
@@ -68,12 +67,12 @@ export default class Signup extends React.Component {
       headers: { 'content-type': 'application/JSON' },
     })
       .then(resp =>
-        (resp.status === 200
+        resp.status === 200
           ? this.setState({ successfulSignup: true })
           : this.setState({
             displayMessage: 'Set the error here, Should be 409',
-          })))
-      .catch(console.error); // should be 500 only
+          }))
+      .catch(err => console.error(err)); // should be 500 only
   }
 
   // todo: render displaymessage!!
@@ -84,7 +83,7 @@ export default class Signup extends React.Component {
         paddingBottom: '40px',
         maxWidth: '330px',
         padding: '15px',
-        margin: '20 auto',
+        margin: '0 auto',
         textAlign: 'center',
       },
     };
@@ -94,49 +93,46 @@ export default class Signup extends React.Component {
           <Redirect to={{ pathname: '/login' }} />
         ) : (
           <div>
-            {this.state.displayMessage ? <div>{this.state.displayMessage}</div> : undefined}
-            <form>
-              <br />
-              <br />
-              <br />
-              <label>
-                <input
-                  type="text"
-                  name="username"
-                  value={this.state.username}
-                  placeholder="Enter your name"
-                  onChange={event => this.handleChange(event)}
-                />
-                <br />
-                <input
-                  type="text"
-                  name="password"
-                  value={this.state.password}
-                  placeholder="Enter your password"
-                  onChange={event => this.handleChange(event)}
-                />
-                <br />
-                <input
-                  type="text"
-                  name="email"
-                  value={this.state.email}
-                  placeholder="Enter your email address"
-                  onChange={event => this.handleChange(event)}
-                />
-                <br />
-                <input
-                  type="text"
-                  name="phoneNumber"
-                  value={this.state.phoneNumber}
-                  placeholder="Enter your phone number"
-                  onChange={event => this.handleChange(event)}
-                />
-              </label>
-              <br />
-              <Button onClick={() => this.handleSubmit()} color="primary">
-                Click to signup
-              </Button>
-            </form>
+            {this.state.displayMessage ? (
+              <div>{this.state.displayMessage}</div>
+            ) : (
+              undefined
+            )}
+            <h2>Sign up</h2>
+            <FormGroup>
+              <Input
+                type="text"
+                name="username"
+                value={this.state.username}
+                placeholder="Enter your name"
+                onChange={event => this.handleChange(event)}
+              />
+              <Input
+                type="text"
+                name="password"
+                value={this.state.password}
+                placeholder="Enter your password"
+                onChange={event => this.handleChange(event)}
+              />
+              <Input
+                type="text"
+                name="email"
+                value={this.state.email}
+                placeholder="Enter your email address"
+                onChange={event => this.handleChange(event)}
+              />
+              <Input
+                type="text"
+                name="phoneNumber"
+                value={this.state.phoneNumber}
+                placeholder="Enter your phone number"
+                onChange={event => this.handleChange(event)}
+              />
+            </FormGroup>
+            <br />
+            <Button onClick={() => this.handleSubmit()} color="primary">
+              Click to signup
+            </Button>
           </div>
         )}
       </div>

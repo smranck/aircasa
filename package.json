@@ -21,7 +21,7 @@
     "babel-preset-react": "^6.24.1",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^4.0.0-beta.3",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
@@ -39,7 +39,7 @@
     "react-responsive-modal": "^2.0.0",
     "react-router-dom": "^4.2.2",
     "react-transition-group": "^2.2.1",
-    "reactstrap": "^4.8.0",
+    "reactstrap": "^5.0.0-alpha.4",
     "webpack": "^2.2.1",
     "webpack-css-loaders": "^1.0.0"
   },

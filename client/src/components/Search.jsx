@@ -20,10 +20,24 @@ export default class Search extends React.Component {
   }
 
   render() {
-    const states = ['California', 'Florida', 'Louisiana', 'Washington'];
+    const states = ['Please Select a State', 'California', 'Florida', 'Louisiana', 'Washington'];
+
+    const styles = {
+      search: {
+        backgroundColor: 'white',
+        border: '1px solid #666',
+        paddingTop: '40px',
+        paddingBottom: '40px',
+        paddingLeft: '40px',
+        paddingRight: '40px',
+        maxWidth: '600px',
+        margin: '0 auto',
+      },
+    };
 
     return (
-      <Form className="search-container">
+      <div className="search-container" style={styles.search}>
+        <h1>Book a reservation now!</h1>
         <FormGroup className="search-city-container">
           <Label htmlFor="city">City</Label>
           <Input
@@ -37,7 +51,6 @@ export default class Search extends React.Component {
           <Label className="state-label" htmlFor="state">
             State
           </Label>
-          {/* //TODO: add onchange set state state to event.target.value */}
           <Input
             className="state-select"
             type="select"
@@ -55,7 +68,7 @@ export default class Search extends React.Component {
         <Link to={`listings/${this.state.state.toLowerCase()}--${this.state.city.toLowerCase()}`}>
           <Button color="primary"> Search! </Button>
         </Link>
-      </Form>
+      </div>
     );
   }
 }

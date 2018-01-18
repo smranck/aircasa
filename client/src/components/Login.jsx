@@ -10,10 +10,11 @@ import {
   Nav,
   NavItem,
   NavLink,
+  Form,
+  Input,
 } from 'reactstrap';
 import { Link, Redirect } from 'react-router-dom';
 import Search from './Search.jsx';
-import 'bootstrap/dist/css/bootstrap.css';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -48,24 +49,34 @@ export default class Login extends React.Component {
     fetch('/login', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
+      credentials: 'include',
       headers: { 'content-type': 'application/JSON' },
     })
       .then(resp =>
-        (resp.status === 200
-          ? this.setState({
-            successfulLogin: true,
-            currentUserId: resp.body.userId,
-          }) // how to handle the userId that is sent in
-          : this.setState({
-            displayMessage: 'Set the error here. resp.status?',
-          })), // should be 401 only
+          resp.status === 200
+            ? this.setState({
+                successfulLogin: true,
+                currentUserId: resp.body.userId,
+              }) // how to handle the userId that is sent in
+            : this.setState({
+                displayMessage: 'Set the error here. resp.status?',
+              }), // should be 401 only
       )
       .catch(console.error); // should be 500 only
   }
-
   render() {
+    const styles = {
+      body: {
+        paddingTop: '40px',
+        paddingBottom: '40px',
+        maxWidth: '330px',
+        padding: '15px',
+        margin: '0 auto',
+        textAlign: 'center',
+      },
+    };
     return (
-      <div className="login-component">
+      <div className="login-component style={styles.body}">
         {this.state.successfulLogin ? (
           <Redirect
             to={{ pathname: '/' }} // this will be the first page they see on login
@@ -73,7 +84,7 @@ export default class Login extends React.Component {
         ) : (
           <div className="Login-Only">
             {this.state.displayMessage ? (
-              <div color="danger">{this.state.displayMessage}</div>
+              <Alert color="danger">{this.state.displayMessage}</Alert>
             ) : (
               undefined
             )}
@@ -82,34 +93,35 @@ export default class Login extends React.Component {
                 <Redirect to="/signup" />
               </div>
             ) : (
-              <FormGroup>
-                <label>
-                  <input
+              <div style={styles.body}>
+                <h2>Please Login</h2>
+                <br />
+                <FormGroup>
+                  <Input
                     type="text"
                     name="username"
                     value={this.state.username}
                     placeholder="Enter your name"
                     onChange={event => this.handleChange(event)}
                   />
-                  <br />
-                  <input
+                  <Input
                     type="text"
                     name="password"
                     value={this.state.password}
                     placeholder="Enter your password"
                     onChange={event => this.handleChange(event)}
                   />
-                </label>
-                <Button onClick={() => this.handleSubmit()} color="primary">
+                </FormGroup>
+                <br />
+                <Button onClick={() => this.handleSubmit()} bssize="lg" color="primary" block>
                   {' '}
                   Login{' '}
-                </Button>
-                <br />
-                <Button onClick={() => this.handleSignup()} color="primary">
+                </Button> 
+                <Button onClick={() => this.handleSignup()} bssize="lg" color="primary" block>
                   {' '}
                   Signup{' '}
                 </Button>
-              </FormGroup>
+              </div>
             )}
           </div>
         )}
