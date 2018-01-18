@@ -20,7 +20,7 @@ module.exports = connection;
 if (process.env.INSERTSAMPLEDATA) {
   const sampleData = require('./sampleData');
 
-  sampleData()
+  sampleData('lake tahoe')
     .then(console.log('added sample data'))
     .catch(console.error);
 }
