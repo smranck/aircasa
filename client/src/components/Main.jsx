@@ -14,14 +14,14 @@ export default class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-}
-    render () {
-      return (
-        <div>
-          <Navigation />
-        </div>
-      );
-    }
+  }
+  render() {
+    return (
+      <div>
+        <Navigation />
+      </div>
+    );
+  }
 }
 
-//2 buttons for login and signup which link to /signup /login
+// 2 buttons for login and signup which link to /signup /login

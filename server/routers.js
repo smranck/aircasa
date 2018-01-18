@@ -156,5 +156,6 @@ router.get('/login', reactRoute);
 router.get('/signup', reactRoute);
 router.get('/listings*', reactRoute);
 router.get('/bookings*', reactRoute);
+router.get('/host', reactRoute);
 
 module.exports = router;

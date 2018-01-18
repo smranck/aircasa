@@ -53,14 +53,14 @@ export default class Login extends React.Component {
       headers: { 'content-type': 'application/JSON' },
     })
       .then(resp =>
-          resp.status === 200
-            ? this.setState({
-                successfulLogin: true,
-                currentUserId: resp.body.userId,
-              }) // how to handle the userId that is sent in
-            : this.setState({
-                displayMessage: 'Set the error here. resp.status?',
-              }), // should be 401 only
+        (resp.status === 200
+          ? this.setState({
+            successfulLogin: true,
+            currentUserId: resp.body.userId,
+          }) // how to handle the userId that is sent in
+          : this.setState({
+            displayMessage: 'Set the error here. resp.status?',
+          })), // should be 401 only
       )
       .catch(console.error); // should be 500 only
   }
@@ -105,7 +105,7 @@ export default class Login extends React.Component {
                     onChange={event => this.handleChange(event)}
                   />
                   <Input
-                    type="text"
+                    type="password"
                     name="password"
                     value={this.state.password}
                     placeholder="Enter your password"
@@ -116,7 +116,7 @@ export default class Login extends React.Component {
                 <Button onClick={() => this.handleSubmit()} bssize="lg" color="primary" block>
                   {' '}
                   Login{' '}
-                </Button> 
+                </Button>
                 <Button onClick={() => this.handleSignup()} bssize="lg" color="primary" block>
                   {' '}
                   Signup{' '}

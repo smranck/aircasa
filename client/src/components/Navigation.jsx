@@ -10,7 +10,8 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem } from 'reactstrap';
+  DropdownItem,
+} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import Search from './Search.jsx';
 
@@ -37,44 +38,39 @@ export default class Navigation extends React.Component {
           <NavbarBrand>airbnb-casa</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
-          <Nav className="ml-auto" navbar>
-            <NavItem>
-              <NavLink href="/host">Host</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="/bookings">Bookings</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="/profile">Profile</NavLink>
-            </NavItem>
-            <UncontrolledDropdown nav inNavbar>
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+                <NavLink href="/host">Host</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/bookings">Bookings</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/profile">Profile</NavLink>
+              </NavItem>
+              <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
                   LoginOptions
                 </DropdownToggle>
-                <DropdownMenu >
-
+                <DropdownMenu>
                   <DropdownItem>
-              <NavLink href="/login">Login</NavLink>
+                    <NavLink href="/login">Login</NavLink>
                   </DropdownItem>
 
                   <DropdownItem>
-              <NavLink href="/signup">Signup</NavLink>
+                    <NavLink href="/signup">Signup</NavLink>
                   </DropdownItem>
 
                   <DropdownItem>
-              <NavLink href="/settings">Settings</NavLink>
+                    <NavLink href="/settings">Settings</NavLink>
                   </DropdownItem>
 
                   <DropdownItem divider />
 
-                  <DropdownItem>
-                    LogOut
-                  </DropdownItem>
-
-
+                  <DropdownItem>LogOut</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
-          </Nav>
+            </Nav>
           </Collapse>
         </Navbar>
       </div>
