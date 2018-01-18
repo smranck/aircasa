@@ -14,27 +14,14 @@ class UserComponent extends React.Component {
       modalOpen: false,
       currentIndex: 0,
     };
+
+    this.getCurrentBookings = this.getCurrentBookings.bind(this);
+    this.sortBookings = this.sortBookings.bind(this);
   }
 
   componentDidMount() {
     this.getCurrentBookings();
   }
-
-  // cancelHandler(index, boolean) {
-  //   const idArray = [];
-  //   this.state.currentBookings[index].forEach((each) => {
-  //     idArray.push(each.id);
-  //   });
-  //   axios.post('/usercomponent-v', { id: idArray }).then((data) => {
-  //     const sortedData = this.sort(data);
-  //     this.setState({
-  //       currentBookings: sortedData[0],
-  //       pastBookings: sortedData[1],
-  //       currentIndex: 0,
-  //       modalOpen: !this.state.modalOpen,
-  //     });
-  //   });
-  // }
 
   getCurrentBookings() {
     fetch('/api/bookings/list', {
@@ -48,6 +35,10 @@ class UserComponent extends React.Component {
   }
 
   sortBookings(bookings) {
+    this.setState({
+      pastBookings: [],
+      currentBookings: [],
+    });
     for (let i = 0; i < bookings.length; i += 1) {
       const currentTime = new Date().getTime();
       const bookingEnd = new Date(bookings[i].end).getTime();
@@ -58,14 +49,6 @@ class UserComponent extends React.Component {
       }
     }
   }
-
-  // modalHandler(index) {
-  //   console.log(index);
-  //   this.setState({
-  //     modalOpen: !this.state.modalOpen,
-  //     currentIndex: index,
-  //   });
-  // }
 
   render() {
     return (
@@ -82,7 +65,13 @@ class UserComponent extends React.Component {
             <Jumbotron>
               <CardColumns>
                 {this.state.currentBookings.map(booking => (
-                  <ListingEntry listing={booking.listing} booking={booking} key={booking.id} />
+                  <ListingEntry
+                    listing={booking.listing}
+                    booking={booking}
+                    key={booking.id}
+                    getCurrentBookings={this.getCurrentBookings}
+                    showButton
+                  />
                 ))}
               </CardColumns>
             </Jumbotron>
@@ -99,7 +88,13 @@ class UserComponent extends React.Component {
             <Jumbotron>
               <CardColumns>
                 {this.state.pastBookings.map(booking => (
-                  <ListingEntry listing={booking.listing} booking={booking} key={booking.id} />
+                  <ListingEntry
+                    listing={booking.listing}
+                    booking={booking}
+                    key={booking.id}
+                    getCurrentBookings={this.getCurrentBookings}
+                    showButton={false}
+                  />
                 ))}
               </CardColumns>
             </Jumbotron>
