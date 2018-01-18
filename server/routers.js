@@ -102,7 +102,7 @@ router.post('/api/bookings/cancel', async (req, res) => {
       return res.sendStatus(401);
     }
 
-    return res.sendStatus(await bookings.cancel(req.body.bookingId));
+    return res.sendStatus(await bookings.cancel(req.body.bookingId, req.session.passport.user));
   } catch (err) {
     return res.status(500).json(err.stack);
   }
