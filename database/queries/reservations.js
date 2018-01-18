@@ -1,10 +1,7 @@
 const connection = require('../config');
 
 const getAllByUserId = userId =>
-  connection.queryAsync(
-    'SELECT bookings.* FROM bookings RIGHT OUTER JOIN listings ON bookings.listing_id = listings.id WHERE bookings.user_id = ?',
-    [userId],
-  );
+  connection.queryAsync('SELECT * FROM bookings WHERE user_id = ?', [userId]);
 
 const getById = bookingId =>
   connection.queryAsync('SELECT * FROM bookings WHERE id = ?', [bookingId]).then(data => data[0]);

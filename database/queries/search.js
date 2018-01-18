@@ -1,17 +1,16 @@
 const connection = require('../config');
+const { parse } = require('./listings');
 
 const byId = id =>
-  connection.queryAsync('SELECT * FROM listings WHERE id = ?', [id]).then(data => data[0]);
+  connection.queryAsync('SELECT * FROM listings WHERE id = ?', [id]).then(data => parse(data[0]));
 
 const byCityState = async (city, state) => {
-  const listingsInCity = await connection.queryAsync(
-    'SELECT * FROM listings WHERE city = ? AND state = ?',
-    [city, state],
-  );
-  const listingsInState = await connection.queryAsync(
-    'SELECT * FROM listings WHERE city != ? AND state = ?',
-    [city, state],
-  );
+  const listingsInCity = await connection
+    .queryAsync('SELECT * FROM listings WHERE city = ? AND state = ?', [city, state])
+    .then(data => data.map(listing => parse(listing)));
+  const listingsInState = await connection
+    .queryAsync('SELECT * FROM listings WHERE city != ? AND state = ?', [city, state])
+    .then(data => data.map(listing => parse(listing)));
   return [...listingsInCity, ...listingsInState];
 };
 

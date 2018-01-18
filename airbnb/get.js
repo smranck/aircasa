@@ -28,8 +28,9 @@ const format = (
   state: states[details.listing.state.toUpperCase()] || 'N/A',
   cancellation_policy: details.listing.cancellation_policy,
   nightly_price: listing.pricing_quote.rate.amount,
-  pic_url: listing.listing.picture_url,
+  pic_url: listing.listing.xl_picture_url || listing.listing.picture_url,
   rating: listing.listing.star_rating || 3,
+  images: JSON.stringify(listing.listing.xl_picture_urls.slice(0, 3)),
 });
 
 const search = query =>

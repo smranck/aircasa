@@ -24,6 +24,7 @@ CREATE TABLE `listings` (
   `host_id` INTEGER NOT NULL,
   `lat` VARCHAR(30) NOT NULL,
   `lng` VARCHAR(30) NOT NULL,
+  `images` VARCHAR(3072) NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 

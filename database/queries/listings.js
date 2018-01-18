@@ -34,13 +34,14 @@ const post = (listing, userId) =>
 const update = (id, listing) =>
   connection
     .queryAsync(
-      'UPDATE listings SET description = ?, summary = ?, zip_code = ?, state = ?, cancellation_policy = ? WHERE id = ?',
+      'UPDATE listings SET description = ?, summary = ?, zip_code = ?, state = ?, cancellation_policy = ?, images = ? WHERE id = ?',
       [
         listing.description,
         listing.summary,
         listing.zip_code,
         listing.state,
         listing.cancellation_policy,
+        listing.images,
         id,
       ],
     )
@@ -49,9 +50,18 @@ const update = (id, listing) =>
 
 const remove = listingId => connection.queryAsync('DELETE FROM listings WHERE id = ?', [listingId]);
 
+const parse = (listing) => {
+  if (listing.images !== null) {
+    const images = { images: JSON.parse(listing.images) };
+    return Object.assign(listing, images);
+  }
+  return listing;
+};
+
 module.exports = {
   getAllByUserId,
   post,
   remove,
   update,
+  parse,
 };
