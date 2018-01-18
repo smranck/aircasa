@@ -51,6 +51,7 @@ export default class BookingWindow extends React.Component {
   bookListing() {
     fetch('/api/bookings/reserve', {
       method: 'POST',
+      credentials: 'include',
       body: JSON.stringify({
         listingId: this.props.listing.id,
         start: this.state.startDate,

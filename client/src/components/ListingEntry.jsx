@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardImg, CardTitle, CardBody, CardSubtitle } from 'reactstrap';
+import { Card, CardImg, CardTitle, CardBody, CardSubtitle, CardText } from 'reactstrap';
 
 import ListingEntryDetails from './ListingEntryDetails.jsx';
 
@@ -28,6 +28,7 @@ export default ({ listing }) => (
         <CardSubtitle>
           {listing.city}, {listing.state}
         </CardSubtitle>
+        {listing.otherText ? <CardText>{listing.otherText}</CardText> : ''}
       </CardBody>
     </Card>
   </Link>
