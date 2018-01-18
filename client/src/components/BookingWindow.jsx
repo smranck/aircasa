@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-responsive-modal';
-import { Alert, UncontrolledAlert } from 'reactstrap';
 import moment from 'moment';
+import { Alert, UncontrolledAlert } from 'reactstrap';
 
 export default class BookingWindow extends React.Component {
   constructor(props) {
@@ -21,27 +21,29 @@ export default class BookingWindow extends React.Component {
   }
 
   setStartDate(event) {
-    this.setState(
-      {
-        startDate: event.target.value,
-      },
-      this.getPriceByNights,
-    );
+    this.setState({
+      startDate: event.target.value,
+    });
+    this.getPriceByNights(event.target.value, this.state.endDate);
   }
 
   setEndDate(event) {
-    this.setState(
-      {
-        endDate: event.target.value,
-      },
-      this.getPriceByNights,
-    );
+    this.setState({
+      endDate: event.target.value,
+    });
+    this.getPriceByNights(this.state.startDate, event.target.value);
   }
 
-  getPriceByNights() {
-    const start = moment(this.state.startDate.split('-'));
-    const end = moment(this.state.endDate.split('-'));
-    const nights = end.diff(start, 'days');
+  getPriceByNights(startDate, endDate) {
+    const MS_PER_DAY = 1000 * 60 * 60 * 24;
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    const utc1 = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
+    const utc2 = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate());
+
+    const nights = Math.floor((utc2 - utc1) / MS_PER_DAY);
+
     const totalPrice = nights * this.props.listing.nightly_price;
     this.setState({
       totalPrice,
