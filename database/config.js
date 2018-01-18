@@ -16,3 +16,11 @@ connection.queryAsync = function queryAsync(...args) {
 };
 
 module.exports = connection;
+
+if (process.env.INSERTSAMPLEDATA) {
+  const sampleData = require('./sampleData');
+
+  sampleData()
+    .then(console.log('added sample data'))
+    .catch(console.error);
+}
