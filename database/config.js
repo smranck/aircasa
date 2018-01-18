@@ -1,8 +1,11 @@
 const mysql = require('mysql');
 
-const connection = mysql.createPool(process.env.DATABASE_URL, {
-  connectionLimit: 2,
-});
+const connection = mysql.createPool(
+  process.env.DATABASE_URL || 'mysql://root:@localhost/airbnb',
+  {
+    connectionLimit: 2,
+  },
+);
 
 connection.queryAsync = function queryAsync(...args) {
   return new Promise((resolve, reject) => {
