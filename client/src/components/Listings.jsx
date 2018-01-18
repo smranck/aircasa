@@ -10,7 +10,6 @@ export default class Listings extends React.Component {
     this.state = {
       listings: [],
     };
-    console.log(this.props);
   }
 
   componentDidMount() {

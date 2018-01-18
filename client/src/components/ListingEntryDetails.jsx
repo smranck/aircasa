@@ -82,18 +82,11 @@ export default class ListingEntryDetails extends React.Component {
               <ListGroupItemText>{this.state.listing.cancellation_policy}</ListGroupItemText>
             </ListGroupItem>
           </ListGroup>
-          {/* <div className="listgroup-bookingwindow">
-            <BookingWindow
-              key={this.state.listing.id}
-              maxGuests={this.state.listing.num_guests}
-              price={this.state.listing.nightly_price}
-              rating={this.state.listing.rating}
-              listingId={this.state.listing.id}
-            />
-          </div> */}
+          <div className="listgroup-bookingwindow">
+            <BookingWindow key={this.state.listing.id} listing={this.state.listing} />
+          </div>
 
           {/* <GMap latLong={this.state.latLong} /> */}
-
           <img src={this.state.listing.pic_url} alt="listing-pic" />
         </div>
       </div>
