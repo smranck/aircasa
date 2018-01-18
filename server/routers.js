@@ -13,6 +13,10 @@ const listings = require('./listings');
 
 const router = express.Router();
 const reactRoute = (req, res) => res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+const protectedReactRoute = (req, res) =>
+  (req.session.passport
+    ? res.sendFile(path.resolve(__dirname, '../client/dist/index.html'))
+    : res.redirect('/login'));
 
 /*
   Passport and user authentication
@@ -153,10 +157,21 @@ router.post('/api/listings/cancel', async (req, res) => {
   React Router
 */
 
-router.get('/login', reactRoute);
-router.get('/signup', reactRoute);
+router.get(
+  '/login',
+  (req, res) => (req.session.passport ? res.redirect('/') : reactRoute(req, res)),
+);
+router.get(
+  '/signup',
+  (req, res) => (req.session.passport ? res.redirect('/') : reactRoute(req, res)),
+);
+router.get('/logoff', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
 router.get('/listings*', reactRoute);
-router.get('/bookings*', reactRoute);
-router.get('/host', reactRoute);
+router.get('/bookings*', protectedReactRoute);
+router.get('/host', protectedReactRoute);
+router.get('/profile', protectedReactRoute);
 
 module.exports = router;
