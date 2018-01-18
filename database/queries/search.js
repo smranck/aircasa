@@ -15,7 +15,19 @@ const byCityState = async (city, state) => {
   return [...listingsInCity, ...listingsInState];
 };
 
+const check = async (city, state) => {
+  const query = `${city.toLowerCase()}, ${state.toLowerCase()}`;
+  const isIn = await connection
+    .queryAsync('SELECT * FROM searches WHERE query = ?', [query])
+    .then(data => data[0]);
+  if (isIn) {
+    return true;
+  }
+  return false;
+};
+
 module.exports = {
   byId,
   byCityState,
+  check,
 };

@@ -6,6 +6,7 @@ const path = require('path');
 const passport = require('./passport');
 const auth = require('./auth');
 const db = require('../database');
+const airbnb = require('../airbnb');
 
 const bookings = require('./bookings');
 const listings = require('./listings');
@@ -47,7 +48,7 @@ router.post('/login', passport.authenticate('local'), (req, res) =>
 
 router.post('/api/listings/search', async (req, res) => {
   try {
-    return res.status(200).json(await db.search.byCityState(req.body.city, req.body.state));
+    return res.status(200).json(await airbnb.search(req.body.city, req.body.state));
   } catch (err) {
     return res.status(500).json(err.stack);
   }

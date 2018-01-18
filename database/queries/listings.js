@@ -6,7 +6,7 @@ const getAllByUserId = userId =>
 const post = (listing, userId) =>
   connection
     .queryAsync(
-      'INSERT INTO listings (num_guests, bedrooms, bathrooms, name, description, summary, neighborhood, street_address, zip_code, city, state, cancellation_policy, nightly_price, pic_url, rating, host_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO listings (num_guests, bedrooms, bathrooms, name, description, summary, neighborhood, street_address, zip_code, city, state, cancellation_policy, nightly_price, pic_url, rating, lat, lng, host_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         listing.num_guests,
         listing.bedrooms,
@@ -23,7 +23,25 @@ const post = (listing, userId) =>
         listing.nightly_price,
         listing.pic_url,
         listing.rating,
+        listing.lat,
+        listing.lng,
         userId,
+      ],
+    )
+    .then(data => connection.queryAsync('SELECT * FROM listings WHERE id = ?', [data.insertId]))
+    .then(data => data[0]);
+
+const update = (id, listing) =>
+  connection
+    .queryAsync(
+      'UPDATE listings SET description = ?, summary = ?, zip_code = ?, state = ?, cancellation_policy = ? WHERE id = ?',
+      [
+        listing.description,
+        listing.summary,
+        listing.zip_code,
+        listing.state,
+        listing.cancellation_policy,
+        id,
       ],
     )
     .then(data => connection.queryAsync('SELECT * FROM listings WHERE id = ?', [data.insertId]))
@@ -35,4 +53,5 @@ module.exports = {
   getAllByUserId,
   post,
   remove,
+  update,
 };
