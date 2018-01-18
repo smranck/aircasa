@@ -1,8 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import axios from 'axios';
+import { Container, CardColumns } from 'reactstrap';
+
 import ListingEntry from './ListingEntry.jsx';
-import { Switch, Route } from 'react-router-dom';
 
 export default class Listings extends React.Component {
   constructor(props) {
@@ -17,32 +16,44 @@ export default class Listings extends React.Component {
   }
 
   getInfo() {
-    axios
-      .post('/api/listings/search', {
+    fetch('/api/listings/search', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
         city: this.props.match.params.city,
         state: this.props.match.params.state,
+      }),
+    })
+      .then(resp => resp.json())
+      .then((data) => {
+        this.setState({ listings: data });
       })
-      .then((response) => {
-        this.setState({ listings: response.data });
-      })
-      .catch(error => console.log(error));
+      .catch(console.log);
   }
 
   render() {
     return (
-      <div>
-        <h3>
-          <u>All listings</u>
-        </h3>
-        {this.state.listings.map(listing => (
-          <ListingEntry
-            listing={listing}
-            key={listing.id}
-            state={this.props.match.params.state}
-            city={this.props.match.params.city}
-          />
-        ))}
-      </div>
+      <Container>
+        <Container style={{ paddingBottom: '10px' }}>
+          <center>
+            <h3>
+              Listings for{' '}
+              <span style={{ textTransform: 'capitalize' }}>
+                {this.props.match.params.city}, {this.props.match.params.state}
+              </span>
+            </h3>
+          </center>
+        </Container>
+        <Container>
+          <CardColumns>
+            {this.state.listings.map(listing => (
+              <ListingEntry listing={listing} key={listing.id} />
+            ))}
+          </CardColumns>
+        </Container>
+      </Container>
     );
   }
 }

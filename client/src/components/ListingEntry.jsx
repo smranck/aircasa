@@ -1,18 +1,34 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Card, CardImg, CardTitle, CardBody, CardSubtitle } from 'reactstrap';
+
 import ListingEntryDetails from './ListingEntryDetails.jsx';
 
-export default ({ state, city, listing }) => (
-  <div className="listingDiv">
-    <Link
-      to={{
-        pathname: `/listings/${state}--${city}/${listing.id}`,
-        state: { listing },
-      }}
-    >
-      <img className="listingImage" src={listing.pic_url} />
-      <h5> {listing.name}</h5>
-    </Link>
-  </div>
+export default ({ listing }) => (
+  <Link
+    to={{
+      pathname: `/listings/${listing.state}--${listing.city}/${listing.id}`,
+      state: { listing },
+    }}
+    style={{ textDecoration: 'none', color: 'black' }}
+  >
+    <Card>
+      <CardImg
+        top
+        height="180px"
+        width="256px"
+        style={{ objectFit: 'cover' }}
+        src={listing.pic_url}
+        alt={`${listing.name} img`}
+      />
+      <CardBody>
+        <CardTitle>{listing.name}</CardTitle>
+      </CardBody>
+      <CardBody>
+        <CardSubtitle>
+          {listing.city}, {listing.state}
+        </CardSubtitle>
+      </CardBody>
+    </Card>
+  </Link>
 );
