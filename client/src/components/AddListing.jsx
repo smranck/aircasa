@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Alert,
   Button,
   Container,
   Form,
@@ -10,6 +11,7 @@ import {
 import { Link, Redirect } from 'react-router-dom';
 import Search from './Search.jsx';
 import 'bootstrap/dist/css/bootstrap.css';
+import Sticky from 'react-stickynode';
 
 export default class AddListing extends React.Component {
   constructor(props) {
@@ -42,7 +44,7 @@ export default class AddListing extends React.Component {
     });
   }
 
-  // Tells the server to insert listing into database
+  // Checks for completeness, then tells the server to insert listing into database
   createListing() {
     const {
       num_guests,
@@ -61,44 +63,9 @@ export default class AddListing extends React.Component {
       pic_url,
       rating,
     } = this.state;
-    if (rating === '') {
+    if (name === '') {
       return this.setState({
-        displayMessage: 'You must rate your own property. The Database requires it.',
-      });
-    }
-    if (num_guests === '') {
-      return this.setState({
-        displayMessage: 'You must enter a maximum capacity',
-      });
-    }
-    if (pic_url === '') {
-      return this.setState({
-        displayMessage: 'Picture URL is required',
-      });
-    }
-    if (nightly_price === '') {
-      return this.setState({
-        displayMessage: 'You must set a price',
-      });
-    }
-    if (cancellation_policy === '') {
-      return this.setState({
-        displayMessage: 'You must choose a cancellation policy',
-      });
-    }
-    if (state === '') {
-      return this.setState({
-        displayMessage: 'State cannot be empty',
-      });
-    }
-    if (city === '') {
-      return this.setState({
-        displayMessage: 'City cannot be empty',
-      });
-    }
-    if (zip_code === '') {
-      return this.setState({
-        displayMessage: 'Zip Code cannot be empty',
+        displayMessage: 'Name cannot be empty',
       });
     }
     if (street_address === '') {
@@ -106,9 +73,19 @@ export default class AddListing extends React.Component {
         displayMessage: 'Street address cannot be empty',
       });
     }
-    if (neighborhood === '') {
+    if (city === '') {
       return this.setState({
-        displayMessage: 'Neighborhood cannot be empty',
+        displayMessage: 'City cannot be empty',
+      });
+    }
+    if (state === '') {
+      return this.setState({
+        displayMessage: 'State cannot be empty',
+      });
+    }
+    if (zip_code === '') {
+      return this.setState({
+        displayMessage: 'Zip Code cannot be empty',
       });
     }
     if (summary === '') {
@@ -116,19 +93,9 @@ export default class AddListing extends React.Component {
         displayMessage: 'You must include a summary',
       });
     }
-    if (description === '') {
+    if (num_guests === '') {
       return this.setState({
-        displayMessage: 'You must include a description',
-      });
-    }
-    if (name === '') {
-      return this.setState({
-        displayMessage: 'Name cannot be empty',
-      });
-    }
-    if (bedrooms === '') {
-      return this.setState({
-        displayMessage: 'Bedrooms cannot be empty',
+        displayMessage: 'You must enter a maximum capacity',
       });
     }
     if (bathrooms === '') {
@@ -136,6 +103,42 @@ export default class AddListing extends React.Component {
         displayMessage: 'Bathrooms cannot be empty',
       });
     }
+    if (bedrooms === '') {
+      return this.setState({
+        displayMessage: 'Bedrooms cannot be empty',
+      });
+    }
+    if (neighborhood === '') {
+      return this.setState({
+        displayMessage: 'Neighborhood cannot be empty',
+      });
+    }
+    if (cancellation_policy === '') {
+      return this.setState({
+        displayMessage: 'You must choose a cancellation policy',
+      });
+    }
+    if (nightly_price === '') {
+      return this.setState({
+        displayMessage: 'You must set a price',
+      });
+    }
+    if (pic_url === '') {
+      return this.setState({
+        displayMessage: 'Picture URL is required',
+      });
+    }
+    if (rating === '') {
+      return this.setState({
+        displayMessage: 'You must rate your own property. The Database requires it.',
+      });
+    }
+    if (description === '') {
+      return this.setState({
+        displayMessage: 'You must include a description',
+      });
+    }
+
     fetch('/api/listings/host', {
       method: 'POST',
       credentials: 'include',
@@ -165,7 +168,7 @@ export default class AddListing extends React.Component {
           })
           : this.setState({
             displayMessage:
-                  'You must be logged in to host!',
+                  'The server reported an error',
           })))
       .catch(console.error); // should be 500 only
   }
@@ -179,22 +182,24 @@ export default class AddListing extends React.Component {
         margin: 'auto',
         textAlign: 'center',
         height: '100vh',
-        width: '100%',
+        width: '50%',
         position: 'relative',
       },
-      form: {
+      formAdd: {
         color: 'black',
         backgroundColor: '#ff73b3',
         opacity: '1',
         overflow: 'scroll',
+        width: '100%',
       },
       warning: {
         fontWeight: 'bold',
-        fontSize: '2em',
+        fontSize: '1em',
         color: '#D8000C',
         backgroundColor: '#FFD2D2',
         position: 'absolute',
-        bottom: '80%',
+        bottom: '50%',
+        borderRadius: '10px',
       },
       btn: {
         cursor: 'pointer',
@@ -207,21 +212,25 @@ export default class AddListing extends React.Component {
       input: {
         textAlign: 'center',
         color: '#000',
-        opcaity: '1',
+        opacity: '1',
         maxWidth: '100%',
+      },
+      title: {
+
       }
     };
 
     return (
       <Container className="addListing" style={styles.body}>
+        <Sticky style={styles.title}>LIST SOMETHING</Sticky>
         {this.state.listingAdded ? (
           <Redirect
             to={{ pathname: '/listings/hosted' }} // this will be the page they go to after successful post
           />
         ) : (
-          <div className="Login-Only" style={styles.form}>
+          <div className="Login-Only" style={styles.formAdd}>
             {this.state.displayMessage ? (
-              <div  style={styles.warning}>{this.state.displayMessage}</div>
+              <Alert  style={styles.warning}>{this.state.displayMessage}</Alert>
             ) : (
               undefined
             )}
@@ -231,8 +240,8 @@ export default class AddListing extends React.Component {
               </div>
             ) : (
               <div style={styles.body}>
-              <h1>LIST SOMETHING</h1>
-                <div className="add-form">  
+              
+                <Form className="add-form">  
                   <FormGroup>
                     <Label for="propertyName">Property Name</Label>
                     <Input
@@ -273,7 +282,7 @@ export default class AddListing extends React.Component {
                       type="text"
                       name="state"
                       id="state"
-                      placeholder="e.g. California, Florida, Louisiana, or Washington"
+                      placeholder="e.g. California"
                       onChange={event => this.handleChange(event)}
                     />
                   </FormGroup>
@@ -418,11 +427,11 @@ export default class AddListing extends React.Component {
                   </FormGroup>
                 
                   <Button style={styles.btn} onClick={() => this.createListing()}>Create your listing</Button>
-                </div>
+                </Form>
               </div>
             )}
             {this.state.displayMessage ? (
-              <div color="danger" style={styles.warning} >{this.state.displayMessage}</div>
+              <Alert color="danger" style={styles.warning} >{this.state.displayMessage}</Alert>
             ) : (
               undefined
             )}
