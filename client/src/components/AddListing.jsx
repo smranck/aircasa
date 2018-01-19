@@ -44,15 +44,7 @@ export default class AddListing extends React.Component {
     });
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   // Checks for completeness, then tells the server to insert listing into database
-=======
-  // Tells the server to insert listing into database
->>>>>>> (refactor) Remove some code and rearrange for clarity
-=======
-  // Checks for completeness, then tells the server to insert listing into database
->>>>>>> (refactor) Remove some code and refactor for appearance
   createListing() {
     const {
       num_guests,
@@ -202,15 +194,7 @@ export default class AddListing extends React.Component {
       },
       warning: {
         fontWeight: 'bold',
-<<<<<<< HEAD
-<<<<<<< HEAD
         fontSize: '1em',
-=======
-        fontSize: '2em',
->>>>>>> (refactor) Remove some code and rearrange for clarity
-=======
-        fontSize: '1em',
->>>>>>> (refactor) Remove some code and refactor for appearance
         color: '#D8000C',
         backgroundColor: '#FFD2D2',
         position: 'absolute',
@@ -244,21 +228,9 @@ export default class AddListing extends React.Component {
             to={{ pathname: '/listings/hosted' }} // this will be the page they go to after successful post
           />
         ) : (
-<<<<<<< HEAD
-<<<<<<< HEAD
           <div className="Login-Only" style={styles.formAdd}>
             {this.state.displayMessage ? (
               <Alert  style={styles.warning}>{this.state.displayMessage}</Alert>
-=======
-          <div className="Login-Only" style={styles.form}>
-            {this.state.displayMessage ? (
-              <div  style={styles.warning}>{this.state.displayMessage}</div>
->>>>>>> (refactor) Remove some code and rearrange for clarity
-=======
-          <div className="Login-Only" style={styles.formAdd}>
-            {this.state.displayMessage ? (
-              <Alert  style={styles.warning}>{this.state.displayMessage}</Alert>
->>>>>>> (refactor) Remove some code and refactor for appearance
             ) : (
               undefined
             )}
@@ -310,15 +282,7 @@ export default class AddListing extends React.Component {
                       type="text"
                       name="state"
                       id="state"
-<<<<<<< HEAD
-<<<<<<< HEAD
                       placeholder="e.g. California"
-=======
-                      placeholder="e.g. California, Florida, Louisiana, or Washington"
->>>>>>> (refactor) Remove some code and rearrange for clarity
-=======
-                      placeholder="e.g. California"
->>>>>>> (refactor) Remove some code and refactor for appearance
                       onChange={event => this.handleChange(event)}
                     />
                   </FormGroup>

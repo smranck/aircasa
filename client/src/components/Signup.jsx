@@ -114,7 +114,6 @@ export default class Signup extends React.Component {
                 onChange={event => this.handleChange(event)}
               />
               <Input
-<<<<<<< HEAD
                 type="password"
                 name="passwordConfirm"
                 value={this.state.passwordConfirm}
@@ -122,8 +121,6 @@ export default class Signup extends React.Component {
                 onChange={event => this.handleChange(event)}
               />
               <Input
-=======
->>>>>>> (refactor) Remove some code and rearrange for clarity
                 type="email"
                 name="email"
                 value={this.state.email}
