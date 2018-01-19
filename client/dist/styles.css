@@ -97,9 +97,8 @@ hr.bookingwindow-hr {
 }
 
 form {
-  width: 320px;
+  //width: 320px;
   padding: 5px;
-  margin-left: 105px;
 }
 
 .listgroup-container {
@@ -131,3 +130,44 @@ form {
 .listgroup-container {
   margin-top: 15px;
 }
+
+
+.todo {
+  float: right;
+  cursor: pointer;
+  color: white;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  background: rgb(202, 60, 60);
+  height: 55px;
+  width: 120px;
+  cursor: pointer !important;
+  -webkit-transition: background 0.3s, border-color 0.3s !important;
+  -moz-transition: background 0.3s, border-color 0.3s !important;
+  transition: background 0.3s, border-color 0.3s !important;
+  display: inline-block !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  border: 2px solid transparent !important;
+  border-radius: 4px !important;
+  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif !important;
+  font-size: 19px !important;
+  line-height: 22px !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  font-weight: 700 !important;
+  padding-right: 24px !important;
+  padding-left: 24px !important;
+  min-width: 77.66563145999496px !important;
+  background: #FF5A5F !important;
+}
+
+.tabLabel {
+  float: right;
+  text-align: right;
+  display: 'block';
+  padding-top: '9px';
+  padding-bottom: '8px';
+  font-family: 'Open Sans';
+  font-size: '16px';
+},

@@ -1,42 +1,58 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Container, Row, Col, Button, Nav, NavItem, NavLink } from 'reactstrap';
-import renderIf from 'render-if';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Nav,
+  NavItem,
+  NavLink,
+  Form,
+  FormGroup,
+  Input,
+} from 'reactstrap'
+import renderIf from 'render-if'
+import ProfileTab from './ProfileTab.jsx';
+import PhotoUploadTab from './PhotoUploadTab.jsx';
+import ResetPasswordTab from './ResetPasswordTab.jsx';
 
 export default class SettingsContainer extends React.Component {
   constructor(props) {
-    super(props);
-    this.state = {};
+    super(props)
+    this.state = {
+      currentTab: 'profile'
+    }
+  }
+  toggleProfileTab() {
+    this.setState({ currentTab: 'profile' })
+  }
+  togglePhotosTab() {
+    this.setState({ currentTab: 'photos' })
+  }
+  toggleResetTab() {
+    this.setState({ currentTab: 'reset' })
   }
 
-  render() {
+  render () {
+    const { currentTab } = this.state
+    const profileTab = renderIf(currentTab === 'profile')
+    const photosTab = renderIf(currentTab === 'photos')
+    const resetTab = renderIf(currentTab === 'reset')
     const styles = {
       container: {
         backgroundColor: 'white',
-        height: '100vh',
+        height: '100vh'
       },
       sidebar: {
         backgroundColor: 'white',
-        height: '100vh',
+        height: '100vh'
       },
       content: {
-        backgroundColor: 'yellow',
-        height: '100vh',
+        backgroundColor: '#edefed',
+        height: '100vh'
       },
-      contentContainer: {
-        backgroundColor: 'red',
-        height: '20vh',
-      },
-      miscInfo: {
-        backgroundColor: 'orange',
-        height: '30vh',
-      },
-      reviews: {
-        backgroundColor: 'pink',
-        height: '75vh',
-      },
-    };
-    // {renderIf(1+1===2) (<div>Hello, World!</div>)}
+    }
     return (
       <Container style={styles.container}>
         <Row>
@@ -44,31 +60,42 @@ export default class SettingsContainer extends React.Component {
             <Container>
               <Nav vertical>
                 <NavItem>
-                  <NavLink href="#">Edit Profile</NavLink>
+                  <NavLink href="#" onClick={() => this.toggleProfileTab()}>
+                    Edit Profile
+                  </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="#">Photos</NavLink>
+                  <NavLink href="#" onClick={() => this.togglePhotosTab()}>
+                    Photos
+                  </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="#">Reset Password</NavLink>
+                  <NavLink href="#" onClick={() => this.toggleResetTab()}>
+                    Reset Password
+                  </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href='/profile'><Button>View Profile</Button></NavLink>
+                  <NavLink href="/profile">
+                    <Button outline color="primary">View Profile</Button>
+                  </NavLink>
                 </NavItem>
               </Nav>
             </Container>
           </Col>
           <Col xs="9" className="content" style={styles.content}>
-            <Container className="contentContainer" style={styles.contentContainer}>
-              test <br />
-              adsflkj <br />
-              Content goes here <br />
-              asdfjaiej <br />
-            </Container>
+            {profileTab(
+              <ProfileTab />
+            )}
+            {photosTab(
+              <PhotoUploadTab />
+            )}
+            {resetTab(
+              <ResetPasswordTab />
+            )}
           </Col>
         </Row>
       </Container>
-    );
+    )
   }
 }
 

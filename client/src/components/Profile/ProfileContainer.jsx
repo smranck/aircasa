@@ -19,13 +19,12 @@ export default class ProfileContainer extends React.Component {
     })
       .then(resp => resp.json())
       .then((data) => {
-        this.setState({ userInfo:data });
+        this.setState({ userInfo: data });
       })
       .catch(console.error);
   }
 
   render() {
-
     const { userInfo } = this.state;
 
     const styles = {
@@ -56,10 +55,10 @@ export default class ProfileContainer extends React.Component {
     };
     return (
       <Container fluid style={styles.container}>
-        <h1>{this.state.userInfo.displayName}</h1>
+        <h1>{userInfo.displayName}</h1>
         <Row>
           <Col className="tagline" style={styles.tagline}>
-            {this.state.userInfo.tagline}
+            {userInfo.tagline}
           </Col>
         </Row>
         <Row>
