@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-responsive-modal';
 import moment from 'moment';
-import { Alert, UncontrolledAlert } from 'reactstrap';
+import { Alert, UncontrolledAlert, Card, CardBody } from 'reactstrap';
 
 export default class BookingWindow extends React.Component {
   constructor(props) {
@@ -86,8 +86,8 @@ export default class BookingWindow extends React.Component {
     const { listing } = this.props;
     const emoji = '🤔 Please pick another date';
     return (
-      <div>
-        <div className="containerBooking">
+      <Card>
+        <CardBody className="containerBooking">
           <h1>
             {' '}
             ${listing.nightly_price}{' '}
@@ -154,8 +154,8 @@ export default class BookingWindow extends React.Component {
           {this.state.failMessage && (
             <UncontrolledAlert color="danger">{this.state.failMessage} </UncontrolledAlert>
           )}
-        </div>
-      </div>
+        </CardBody>
+      </Card>
     );
   }
 }

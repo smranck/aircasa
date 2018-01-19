@@ -1,4 +1,5 @@
 import React from 'react';
+import Sticky from 'react-stickynode';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
@@ -17,8 +18,8 @@ export default class Navigation extends React.Component {
   }
   render() {
     return (
-      <div>
-        <Navbar color="faded" light expand="md">
+      <Sticky className="sticky navbar-container" id="navbar" innerZ={5}>
+        <Navbar color="white" light expand="md">
           <Link to="/">
             <img className="navLogo" src="/assets/logo.png" alt="airbnb" />
           </Link>
@@ -62,7 +63,7 @@ export default class Navigation extends React.Component {
             )}
           </Collapse>
         </Navbar>
-      </div>
+      </Sticky>
     );
   }
 }

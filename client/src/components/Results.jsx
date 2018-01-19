@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from 'reactstrap';
-
+import Sticky from 'react-stickynode';
 import Listings from './Listings.jsx';
 
 export default class Results extends React.Component {
@@ -40,12 +40,14 @@ export default class Results extends React.Component {
       <Container>
         <Container style={{ paddingBottom: '10px' }}>
           <center>
-            <h3>
-              Listings for{' '}
-              <span style={{ textTransform: 'capitalize' }}>
-                {this.props.match.params.city}, {this.props.match.params.state}
-              </span>
-            </h3>
+            <Sticky className="sticky" innerZ={5} top={50}>
+              <h3>
+                Listings for{' '}
+                <span style={{ textTransform: 'capitalize' }}>
+                  {this.props.match.params.city}, {this.props.match.params.state}
+                </span>
+              </h3>
+            </Sticky>
           </center>
         </Container>
         <Listings listings={this.state.listings} />
