@@ -14,18 +14,20 @@ export default class ListingEntry extends React.Component {
     this.toggle = this.toggle.bind(this);
   }
 
+  // Activates the modal that contains the button that cancels the listing
   toggle() {
     this.setState({
       modal: !this.state.modal,
     });
   }
 
+  // function to cancel this listing
   cancelListing() {
     fetch('/api/listings/cancel', {
       method: 'POST',
       credentials: 'include',
       body: JSON.stringify({
-        listingId: this.props.listing.id, // if wrong, maybe here
+        listingId: this.props.listing.id,
       }),
       headers: { 'content-type': 'application/json' },
     })
@@ -33,6 +35,7 @@ export default class ListingEntry extends React.Component {
       .catch(console.error);
   }
 
+  // renders a single listing
   render() {
     const { listing } = this.props;
     return (

@@ -12,10 +12,12 @@ export default class Results extends React.Component {
     };
   }
 
+  // On mount, get all listings hosted by the user
   componentDidMount() {
     this.getHostedListings();
   }
 
+  // A function to tell the server to get all the listings hosted by the user
   getHostedListings() {
     fetch('/api/listings', {
       credentials: 'include',
@@ -25,9 +27,10 @@ export default class Results extends React.Component {
         this.setState({
           listings: resp,
         }))
-      .catch(console.error); // should be 500 only
+      .catch(console.error);
   }
 
+  // renders the component. Avoided using Listings.jsx due to need to set state from individual listing
   render() {
     return (
       <div>
