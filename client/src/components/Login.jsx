@@ -52,16 +52,18 @@ export default class Login extends React.Component {
       credentials: 'include',
       headers: { 'content-type': 'application/JSON' },
     })
-      .then(resp =>
-        (resp.status === 200
-          ? this.setState({
+      .then((resp) => {
+        if (resp.status === 200) {
+          this.setState({
             successfulLogin: true,
             currentUserId: resp.body.userId,
-          }) // how to handle the userId that is sent in
-          : this.setState({
-            displayMessage: 'Set the error here. resp.status?',
-          })), // should be 401 only
-      )
+          }); // how to handle the userId that is sent in
+          return this.props.setUserId(true);
+        }
+        return this.setState({
+          displayMessage: 'Set the error here. resp.status?',
+        }); // should be 401 only
+      }) // should be 401 only
       .catch(console.error); // should be 500 only
   }
   render() {

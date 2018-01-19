@@ -1,19 +1,6 @@
 import React from 'react';
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import Search from './Search.jsx';
 
 export default class Navigation extends React.Component {
   constructor(props) {
@@ -38,39 +25,41 @@ export default class Navigation extends React.Component {
           <NavbarBrand>airbnb-casa</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="/host">Host</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/bookings">Bookings</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/profile">Profile</NavLink>
-              </NavItem>
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  LoginOptions
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem>
-                    <NavLink href="/login">Login</NavLink>
-                  </DropdownItem>
-
-                  <DropdownItem>
-                    <NavLink href="/signup">Signup</NavLink>
-                  </DropdownItem>
-
-                  <DropdownItem>
-                    <NavLink href="/settings">Settings</NavLink>
-                  </DropdownItem>
-
-                  <DropdownItem divider />
-
-                  <DropdownItem>LogOut</DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </Nav>
+            {!this.props.userId ? (
+              <Nav className="ml-auto" navbar>
+                <NavItem>
+                  <Link to="/login">
+                    <NavLink>Log In</NavLink>
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link to="/signup">
+                    <NavLink>Sign Up</NavLink>
+                  </Link>
+                </NavItem>
+              </Nav>
+            ) : (
+              <Nav className="ml-auto" navbar>
+                <NavItem>
+                  <Link to="/host">
+                    <NavLink>Host</NavLink>
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link to="/bookings">
+                    <NavLink>Bookings</NavLink>
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link to="/profile">
+                    <NavLink>Profile</NavLink>
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <NavLink href="/logoff">Log Out</NavLink>
+                </NavItem>
+              </Nav>
+            )}
           </Collapse>
         </Navbar>
       </div>
