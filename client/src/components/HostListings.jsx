@@ -1,7 +1,7 @@
 import React from 'react';
 import { CardColumns, Container, Jumbotron } from 'reactstrap';
-import HostListingEntry from './HostListingEntry.jsx';
 
+import HostListingEntry from './HostListingEntry.jsx';
 import Listings from './Listings.jsx';
 
 export default class Results extends React.Component {

@@ -1,7 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardImg, CardTitle, CardBody, CardSubtitle, Button } from 'reactstrap';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import {
+  Button,
+  Card,
+  CardImg,
+  CardTitle,
+  CardBody,
+  CardSubtitle,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from 'reactstrap';
 
 import ListingEntryDetails from './ListingEntryDetails.jsx';
 
