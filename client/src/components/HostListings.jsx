@@ -1,5 +1,6 @@
 import React from 'react';
-import { Container } from 'reactstrap';
+import { CardColumns, Container, Jumbotron } from 'reactstrap';
+import HostListingEntry from './HostListingEntry.jsx';
 
 import Listings from './Listings.jsx';
 
@@ -12,10 +13,10 @@ export default class Results extends React.Component {
   }
 
   componentDidMount() {
-    this.createListing();
+    this.getHostedListings();
   }
 
-  createListing() {
+  getHostedListings() {
     fetch('/api/listings', {
       credentials: 'include',
     })
@@ -29,16 +30,31 @@ export default class Results extends React.Component {
 
   render() {
     return (
-      <Container>
-        <Container style={{ paddingBottom: '10px' }}>
-          <center>
-            <h3>
-              <span style={{ textTransform: 'capitalize' }}>Your Listings</span>
-            </h3>
-          </center>
-        </Container>
-        <Listings listings={this.state.listings} />
-      </Container>
+      <div>
+        <div>
+          <Container style={{ paddingBottom: '10px' }}>
+            <center>
+              <h3>
+                <span style={{ textTransform: 'capitalize' }}>Current Listings</span>
+              </h3>
+            </center>
+          </Container>
+          <Container>
+            <Jumbotron>
+              <CardColumns>
+                {this.state.listings.map(listing => (
+                  <HostListingEntry
+                    listing={listing}
+                    key={listing.id}
+                    getHostedListings={() => this.getHostedListings()}
+                  />
+                ))}
+              </CardColumns>
+            </Jumbotron>
+          </Container>
+          <div />
+        </div>
+      </div>
     );
   }
 }
