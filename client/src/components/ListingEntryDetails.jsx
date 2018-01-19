@@ -22,7 +22,10 @@ export default class ListingEntryDetails extends React.Component {
     this.state = {
       listingId: this.props.match.params.id,
       listing: {},
+      isOpen: false,
     };
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -38,21 +41,38 @@ export default class ListingEntryDetails extends React.Component {
       .catch(console.error);
   }
 
+  handleClick() {
+    this.setState({ isOpen: !this.state.isOpen });
+  }
+
+  createMarkup() {
+    return { __html: String(this.state.listing.description).replace(/(?:\r\n|\r|\n)/g, '<br />') };
+  }
+
   render() {
     const style = {
       image: {
         backgroundImage: `url(${this.state.listing.pic_url})`,
       },
     };
+
     return (
       <div className="list-entry-details-container">
         <div className="container-fluid">
-          <div className="listing-img-div" aria-hidden="true" style={style.image} />
-          <Gallery
-            className="listing-img-component"
-            listing={this.state.listing}
-            images={[{ src: this.state.listing.pic_url }]}
+          <div
+            className="listing-img-div"
+            aria-hidden="true"
+            style={style.image}
+            onClick={this.handleClick}
           />
+          {
+            <Gallery
+              className="listing-img-component"
+              images={this.state.listing.images}
+              isOpen={this.state.isOpen}
+              handleClick={this.handleClick}
+            />
+          }
         </div>
         <div className="listgroup-container container">
           <ListGroup className="listgroup-info">
@@ -61,10 +81,13 @@ export default class ListingEntryDetails extends React.Component {
             </ListGroupItem>
 
             <ListGroupItem>
-              <ListGroupItemHeading>About the Listing</ListGroupItemHeading>
-              <ListGroupItemText>
-                {`${this.state.listing.summary} ${this.state.listing.description}`}
-              </ListGroupItemText>
+              <ListGroupItemHeading>Summary</ListGroupItemHeading>
+              <ListGroupItemText>{this.state.listing.summary}</ListGroupItemText>
+            </ListGroupItem>
+
+            <ListGroupItem>
+              <ListGroupItemHeading>The Space</ListGroupItemHeading>
+              <ListGroupItemText dangerouslySetInnerHTML={this.createMarkup()} />
             </ListGroupItem>
 
             <ListGroupItem>

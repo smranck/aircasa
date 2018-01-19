@@ -1,7 +1,8 @@
 import React from 'react';
 import Modal from 'react-responsive-modal';
 import moment from 'moment';
-import { Alert, UncontrolledAlert, Card, CardBody } from 'reactstrap';
+import { emojify } from 'react-emojione';
+import { Alert, UncontrolledAlert, Card, CardBody, Input } from 'reactstrap';
 
 export default class BookingWindow extends React.Component {
   constructor(props) {
@@ -86,21 +87,27 @@ export default class BookingWindow extends React.Component {
     const { listing } = this.props;
     const emoji = '🤔 Please pick another date';
     return (
-      <Card>
+      <div className="bookingwindow-container">
         <CardBody className="containerBooking">
           <h1>
             {' '}
             ${listing.nightly_price}{' '}
             <span style={{ fontSize: 'medium', fontWeight: '200' }}> per night </span>
           </h1>
-          <h2> Rating: {Array(this.props.listing.rating).fill('🖕')}</h2>
-          <hr />
+          <h2>
+            {' '}
+            {Array(this.props.listing.rating)
+              .fill('*')
+              .map(r => emojify(':star:'))}{' '}
+            176
+          </h2>
+          <hr className="bookingwindow-hr" />
 
           <div className="bookingDatesBox">
             <h2>
               {' '}
-              Check-in:
-              <input
+              Check in:
+              <Input
                 type="date"
                 id="startDate"
                 min={moment().format('YYYY-MM-DD')}
@@ -110,8 +117,8 @@ export default class BookingWindow extends React.Component {
             </h2>
             <h2>
               {' '}
-              Check-out:
-              <input
+              Check out:
+              <Input
                 type="date"
                 id="endDate"
                 value={this.state.endDate}
@@ -121,12 +128,12 @@ export default class BookingWindow extends React.Component {
             </h2>
             <h2>
               {' '}
-              Number of guests:
-              <select>
+              Guests
+              <Input type="select">
                 {Array(this.props.listing.num_guests)
                   .fill('1')
-                  .map((entry, index) => <option key={index}> {index + 1} </option>)}
-              </select>
+                  .map((entry, index) => <option key={index}> {index + 1} guest</option>)}
+              </Input>
             </h2>
           </div>
           <div>
@@ -140,14 +147,16 @@ export default class BookingWindow extends React.Component {
           {this.state.totalPrice === 0 ? (
             <Alert color="danger"> {emoji}</Alert>
           ) : (
-            <button className="dateSelectionSubmit" onClick={this.handleClick}>
-              {' '}
-              Book it!{' '}
-            </button>
+            <div>
+              <button className="dateSelectionSubmit" onClick={this.handleClick}>
+                {' '}
+                Book{' '}
+              </button>
+              <small className="small-booking-text">
+                <span>You won't be charged yet</span>
+              </small>
+            </div>
           )}
-          <br />
-          <br />
-          <br />
           {this.state.successMessage && (
             <UncontrolledAlert color="success">{this.state.successMessage}</UncontrolledAlert>
           )}
@@ -155,7 +164,7 @@ export default class BookingWindow extends React.Component {
             <UncontrolledAlert color="danger">{this.state.failMessage} </UncontrolledAlert>
           )}
         </CardBody>
-      </Card>
+      </div>
     );
   }
 }

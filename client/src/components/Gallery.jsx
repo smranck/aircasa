@@ -6,9 +6,9 @@ export default class Gallery extends Component {
     super(props);
 
     this.state = {
-      lightboxIsOpen: false,
+      lightboxIsOpen: this.props.isOpen,
       currentImage: 0,
-      listing: {},
+      formattedImages: [],
     };
 
     this.closeLightbox = this.closeLightbox.bind(this);
@@ -20,9 +20,15 @@ export default class Gallery extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.listing);
-    this.setState({ listing: nextProps.listing });
+    this.formatImages(nextProps.images);
+    this.setState({ lightboxIsOpen: nextProps.isOpen });
   }
+
+  formatImages(imagesArr) {
+    const formattedImages = imagesArr.map(imageLink => ({ src: imageLink }));
+    this.setState({ formattedImages });
+  }
+
   openLightbox(index, event) {
     event.preventDefault();
     this.setState({
@@ -31,6 +37,7 @@ export default class Gallery extends Component {
     });
   }
   closeLightbox() {
+    this.props.handleClick();
     this.setState({
       currentImage: 0,
       lightboxIsOpen: false,
@@ -52,45 +59,41 @@ export default class Gallery extends Component {
     });
   }
   handleClickImage() {
-    if (this.state.currentImage === this.props.images.length - 1) return;
+    if (this.state.currentImage === this.state.formattedImages.length - 1) return;
 
     this.gotoNext();
   }
-  renderGallery() {
-    const { images } = this.props;
 
-    if (!images) return;
-
-    const gallery = images.filter(i => i.useForDemo).map((obj, i) => (
-      <a href={obj.src} key={i} onClick={e => this.openLightbox(i, e)}>
-        <img src={obj.thumbnail} />
-      </a>
-    ));
-
-    return <div>{gallery}</div>;
-  }
   render() {
     return (
       <div className="section">
-        {this.props.heading && <h2>{this.props.heading}</h2>}
-        {this.props.subheading && <p>{this.props.subheading}</p>}
-        {this.renderGallery()}
         <Lightbox
           currentImage={this.state.currentImage}
-          images={this.props.images}
+          images={this.state.formattedImages}
           isOpen={this.state.lightboxIsOpen}
           onClickImage={this.handleClickImage}
           onClickNext={this.gotoNext}
           onClickPrev={this.gotoPrevious}
           onClickThumbnail={this.gotoImage}
           onClose={this.closeLightbox}
-          showThumbnails={this.props.showThumbnails}
-          spinner={this.props.spinner}
-          spinnerColor={this.props.spinnerColor}
-          spinnerSize={this.props.spinnerSize}
-          theme={this.props.theme}
         />
       </div>
     );
   }
 }
+
+// {
+//   this.props.heading && <h2>{this.props.heading}</h2>;
+// }
+// {
+//   this.props.subheading && <p>{this.props.subheading}</p>;
+// }
+// {
+//   this.renderGallery();
+// }
+
+// showThumbnails={this.props.showThumbnails}
+//           spinner={this.props.spinner}
+//           spinnerColor={this.props.spinnerColor}
+//           spinnerSize={this.props.spinnerSize}
+//           theme={this.props.theme}

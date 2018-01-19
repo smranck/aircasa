@@ -2,6 +2,15 @@
   display: inline-block
 }*/
 
+body {
+  font-family: Circular, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.43;
+  color: #484848;
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
 .button {
   border: none;
   cursor: pointer;
@@ -14,14 +23,62 @@
   padding: 5px;
 }
 
+.bookingwindow-container {
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+  margin: 0px !important;
+  border: 1px solid #e4e4e4 !important;
+  background-color: #ffffff !important;
+  box-sizing: border-box;
+  margin-left: 45px !important;
+  width: 376px !important;
+  z-index: 3 !important;
+}
+
+.small-booking-text {
+  font-weight: normal !important;
+  margin: 0px !important;
+  word-wrap: break-word !important;
+  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif !important;
+  font-size: 12px !important;
+  line-height: 16px !important;
+  letter-spacing: 0.4px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  color: #484848 !important;
+}
+
+hr.bookingwindow-hr {
+  border: 1px solid #D3D3D3;
+}
+
 .dateSelectionSubmit {
+  cursor: pointer;
   color: white;
   border-radius: 4px;
-  font-size: large;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-  background: rgb(202, 60, 60);
-  width: 200px;
+  width: 100%;
   height: 55px;
+  cursor: pointer !important;
+  -webkit-transition: background 0.3s, border-color 0.3s !important;
+  -moz-transition: background 0.3s, border-color 0.3s !important;
+  transition: background 0.3s, border-color 0.3s !important;
+  position: relative !important;
+  display: inline-block !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  border: 2px solid transparent !important;
+  border-radius: 4px !important;
+  width: 100% !important;
+  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif !important;
+  font-size: 19px !important;
+  line-height: 22px !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  font-weight: 700 !important;
+  padding-right: 24px !important;
+  padding-left: 24px !important;
+  min-width: 77.66563145999496px !important;
+  background: #FF5A5F !important;
 }
 
 .listingDiv {
