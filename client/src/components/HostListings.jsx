@@ -1,6 +1,7 @@
 import React from 'react';
-import { Container } from 'reactstrap';
+import { CardColumns, Container, Jumbotron } from 'reactstrap';
 
+import HostListingEntry from './HostListingEntry.jsx';
 import Listings from './Listings.jsx';
 
 export default class Results extends React.Component {
@@ -11,11 +12,13 @@ export default class Results extends React.Component {
     };
   }
 
+  // On mount, get all listings hosted by the user
   componentDidMount() {
-    this.createListing();
+    this.getHostedListings();
   }
 
-  createListing() {
+  // A function to tell the server to get all the listings hosted by the user
+  getHostedListings() {
     fetch('/api/listings', {
       credentials: 'include',
     })
@@ -24,21 +27,37 @@ export default class Results extends React.Component {
         this.setState({
           listings: resp,
         }))
-      .catch(console.error); // should be 500 only
+      .catch(console.error);
   }
 
+  // renders the component. Avoided using Listings.jsx due to need to set state from individual listing
   render() {
     return (
-      <Container>
-        <Container style={{ paddingBottom: '10px' }}>
-          <center>
-            <h3>
-              <span style={{ textTransform: 'capitalize' }}>Your Listings</span>
-            </h3>
-          </center>
-        </Container>
-        <Listings listings={this.state.listings} />
-      </Container>
+      <div>
+        <div>
+          <Container style={{ paddingBottom: '10px' }}>
+            <center>
+              <h3>
+                <span style={{ textTransform: 'capitalize' }}>Current Listings</span>
+              </h3>
+            </center>
+          </Container>
+          <Container>
+            <Jumbotron>
+              <CardColumns>
+                {this.state.listings.map(listing => (
+                  <HostListingEntry
+                    listing={listing}
+                    key={listing.id}
+                    getHostedListings={() => this.getHostedListings()}
+                  />
+                ))}
+              </CardColumns>
+            </Jumbotron>
+          </Container>
+          <div />
+        </div>
+      </div>
     );
   }
 }
