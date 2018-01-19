@@ -64,10 +64,6 @@ export default class Navigation extends React.Component {
                   </Link>
                 </NavItem>
                 <NavItem>
-                  <Link to="/profile">
-                    <NavLink>Profile</NavLink>
-                  </Link>
-                </NavItem>
                 <NavItem>
                   <Link to="profile">
                     <NavLink>Profile</NavLink>
