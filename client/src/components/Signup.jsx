@@ -21,6 +21,7 @@ export default class Signup extends React.Component {
     this.state = {
       username: '',
       password: '',
+      passwordConfirm: '',
       phoneNumber: '',
       email: '',
       successfulSignup: false,
@@ -110,6 +111,13 @@ export default class Signup extends React.Component {
                 name="password"
                 value={this.state.password}
                 placeholder="Enter your password"
+                onChange={event => this.handleChange(event)}
+              />
+              <Input
+                type="password"
+                name="passwordConfirm"
+                value={this.state.passwordConfirm}
+                placeholder="Confirm your password"
                 onChange={event => this.handleChange(event)}
               />
               <Input

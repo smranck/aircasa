@@ -61,7 +61,7 @@ export default class Login extends React.Component {
           return this.props.setUserId(true);
         }
         return this.setState({
-          displayMessage: 'Set the error here. resp.status?',
+          displayMessage: 'Incorrect username or password',
         }); // should be 401 only
       }) // should be 401 only
       .catch(console.error); // should be 500 only
