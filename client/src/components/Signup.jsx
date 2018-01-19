@@ -12,7 +12,7 @@ import {
   NavLink,
   Input,
 } from 'reactstrap';
-import {Link, Redirect} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Search from './Search.jsx';
 
 export default class Signup extends React.Component {
@@ -35,7 +35,9 @@ export default class Signup extends React.Component {
   }
 
   handleSubmit() {
-    const { username, password, phoneNumber, email } = this.state;
+    const {
+      username, password, phoneNumber, email,
+    } = this.state;
     if (username === '') {
       return this.setState({
         displayMessage: 'Login requires a username',
@@ -67,11 +69,11 @@ export default class Signup extends React.Component {
       headers: { 'content-type': 'application/JSON' },
     })
       .then(resp =>
-        resp.status === 200
+        (resp.status === 200
           ? this.setState({ successfulSignup: true })
           : this.setState({
             displayMessage: 'Set the error here, Should be 409',
-          }))
+          })))
       .catch(err => console.error(err)); // should be 500 only
   }
 
@@ -93,11 +95,7 @@ export default class Signup extends React.Component {
           <Redirect to={{ pathname: '/login' }} />
         ) : (
           <div>
-            {this.state.displayMessage ? (
-              <div>{this.state.displayMessage}</div>
-            ) : (
-              undefined
-            )}
+            {this.state.displayMessage ? <div>{this.state.displayMessage}</div> : undefined}
             <h2>Sign up</h2>
             <FormGroup>
               <Input
@@ -108,14 +106,14 @@ export default class Signup extends React.Component {
                 onChange={event => this.handleChange(event)}
               />
               <Input
-                type="text"
+                type="password"
                 name="password"
                 value={this.state.password}
                 placeholder="Enter your password"
                 onChange={event => this.handleChange(event)}
               />
               <Input
-                type="text"
+                type="email"
                 name="email"
                 value={this.state.email}
                 placeholder="Enter your email address"

@@ -1,18 +1,11 @@
 import React from 'react';
 import {
   Button,
-  Collapse,
   Container,
   Form,
   FormGroup,
   Input,
   Label,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
 } from 'reactstrap';
 import { Link, Redirect } from 'react-router-dom';
 import Search from './Search.jsx';
@@ -42,12 +35,14 @@ export default class AddListing extends React.Component {
     };
   }
 
+  // Sets state on input events
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
     });
   }
 
+  // Tells the server to insert listing into database
   createListing() {
     const {
       num_guests,
@@ -194,6 +189,8 @@ export default class AddListing extends React.Component {
         overflow: 'scroll',
       },
       warning: {
+        fontWeight: 'bold',
+        fontSize: '2em',
         color: '#D8000C',
         backgroundColor: '#FFD2D2',
         position: 'absolute',
@@ -206,7 +203,6 @@ export default class AddListing extends React.Component {
         color: '#fff',
         backgroundColor: '#ff73b3',
         opacity: '1',
-
       }, 
       input: {
         textAlign: 'center',
@@ -223,11 +219,9 @@ export default class AddListing extends React.Component {
             to={{ pathname: '/listings/hosted' }} // this will be the page they go to after successful post
           />
         ) : (
-          
           <div className="Login-Only" style={styles.form}>
-            
             {this.state.displayMessage ? (
-              <div color="danger" style={styles.warning}>{this.state.displayMessage}</div>
+              <div  style={styles.warning}>{this.state.displayMessage}</div>
             ) : (
               undefined
             )}
@@ -247,6 +241,61 @@ export default class AddListing extends React.Component {
                       name="name"
                       id="name"
                       placeholder="e.g. casa slackk"
+                      onChange={event => this.handleChange(event)}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="street_address">Street Address</Label>
+                    <Input
+                      style={styles.input}
+                      type="text"
+                      name="street_address"
+                      id="street_address"
+                      placeholder="e.g. 1600 Pennsylvania Ave"
+                      onChange={event => this.handleChange(event)}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="city">City</Label>
+                    <Input
+                      style={styles.input}
+                      type="text"
+                      name="city"
+                      id="city"
+                      placeholder="e.g. Washington D.C."
+                      onChange={event => this.handleChange(event)}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="state">State</Label>
+                    <Input
+                      style={styles.input}
+                      type="text"
+                      name="state"
+                      id="state"
+                      placeholder="e.g. California, Florida, Louisiana, or Washington"
+                      onChange={event => this.handleChange(event)}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="zip_code">ZIP code</Label>
+                    <Input
+                      style={styles.input}
+                      type="number"
+                      name="zip_code"
+                      id="zip_code"
+                      placeholder="e.g. 20500"
+                      onChange={event => this.handleChange(event)}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                  <Label for="summary">Summarize your listing</Label>
+                    <Input
+                      style={styles.input}
+                      type="textarea"
+                      name="summary"
+                      id="summary"
+                      placeholder="e.g. 'Beach house downtown. Right by the casinos!' or 'Male, 42, quiet, favorite color: black.'"
                       onChange={event => this.handleChange(event)}
                     />
                   </FormGroup>
@@ -295,51 +344,7 @@ export default class AddListing extends React.Component {
                     />
                   </FormGroup>
                   <FormGroup>
-                    <Label for="street_address">Street Address</Label>
-                    <Input
-                      style={styles.input}
-                      type="text"
-                      name="street_address"
-                      id="street_address"
-                      placeholder="e.g. 1600 Pennsylvania Ave"
-                      onChange={event => this.handleChange(event)}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="zip_code">ZIP code</Label>
-                    <Input
-                      style={styles.input}
-                      type="number"
-                      name="zip_code"
-                      id="zip_code"
-                      placeholder="e.g. 20500"
-                      onChange={event => this.handleChange(event)}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="city">City</Label>
-                    <Input
-                      style={styles.input}
-                      type="text"
-                      name="city"
-                      id="city"
-                      placeholder="e.g. Washington D.C."
-                      onChange={event => this.handleChange(event)}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="state">State</Label>
-                    <Input
-                      style={styles.input}
-                      type="text"
-                      name="state"
-                      id="state"
-                      placeholder="e.g. California, Florida, Louisiana, or Washington"
-                      onChange={event => this.handleChange(event)}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="chooseRating">Select your Cancellation Policy</Label>
+                    <Label for="cancellationPolicy">Select your Cancellation Policy</Label>
                     <Input
                       style={styles.input}
                       type="select"
@@ -411,17 +416,7 @@ export default class AddListing extends React.Component {
                       onChange={event => this.handleChange(event)}
                     />
                   </FormGroup>
-                  <FormGroup>
-                    <Label for="summary">Summarize your listing</Label>
-                    <Input
-                      style={styles.input}
-                      type="textarea"
-                      name="summary"
-                      id="summary"
-                      placeholder="Summarize your listing"
-                      onChange={event => this.handleChange(event)}
-                    />
-                  </FormGroup>
+                
                   <Button style={styles.btn} onClick={() => this.createListing()}>Create your listing</Button>
                 </div>
               </div>
