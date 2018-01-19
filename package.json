@@ -31,6 +31,7 @@
     "node-fetch": "^1.7.3",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.0",
     "react-datepicker": "^1.0.4",
@@ -42,6 +43,7 @@
     "react-stickynode": "^1.4.0",
     "react-transition-group": "^2.2.1",
     "reactstrap": "^5.0.0-alpha.4",
+    "render-if": "^0.1.1",
     "webpack": "^2.2.1",
     "webpack-css-loaders": "^1.0.0"
   },

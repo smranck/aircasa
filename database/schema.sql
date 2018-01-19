@@ -49,6 +49,20 @@ CREATE TABLE `users` (
   `password` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
   `phoneNumber` VARCHAR(10) NOT NULL,
+  `location` VARCHAR(50) NULL DEFAULT NULL,
+  `bio` VARCHAR(255) NULL DEFAULT NULL,
+  `picture` VARCHAR(50) NULL DEFAULT NULL,
+  `tagline` VARCHAR(100) NULL DEFAULT NULL,
+  `displayName` VARCHAR(255) NULL DEFAULT NULL,
+  `joinedDate` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `reviews` (
+  `id` INTEGER NOT NULL AUTO_INCREMENT,
+  `user_id` INTEGER NOT NULL,
+  `host_id` INTEGER NOT NULL,
+  `reviewText` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -63,6 +77,6 @@ CREATE TABLE `searches` (
 ALTER TABLE `bookings` ADD FOREIGN KEY (listing_id) REFERENCES `listings` (`id`);
 ALTER TABLE `bookings` ADD FOREIGN KEY (user_id) REFERENCES `users` (`id`);
 ALTER TABLE `listings` ADD FOREIGN KEY (host_id) REFERENCES `users` (`id`);
+ALTER TABLE `reviews` ADD FOREIGN KEY (user_id) REFERENCES `users` (`id`);
+ALTER TABLE `reviews` ADD FOREIGN KEY (host_id) REFERENCES `users` (`id`);
 
-INSERT INTO `users` (name, password, email, phonenumber) VALUES ('testUser1', '$2a$04$8MuGZLSOJCnlO8nlEDoEx.2yBc/ZQCyKqkyB8teLmGfBWkBAkD4Ya', 'email@email.com', '1234567890');
-INSERT INTO `users` (name, password, email, phonenumber) VALUES ('testUser2', '$2a$04$8MuGZLSOJCnlO8nlEDoEx.2yBc/ZQCyKqkyB8teLmGfBWkBAkD4Ya', 'email@email.com', '1234567890');

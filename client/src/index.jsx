@@ -11,6 +11,8 @@ import Signup from './components/Signup.jsx';
 import Navigation from './components/Navigation.jsx';
 import HostListings from './components/HostListings.jsx';
 import AddListing from './components/AddListing.jsx';
+import SettingsContainer from './components/Settings/SettingsContainer.jsx';
+import ProfileContainer from './components/Profile/ProfileContainer.jsx';
 
 class Main extends React.Component {
   constructor(props) {
@@ -23,8 +25,6 @@ class Main extends React.Component {
     fetch('/api/bookings/list', { credentials: 'include' }).then(resp => (resp.status === 200 ? this.setState({ userId: true }) : undefined));
   }
   setUserId(val) {
-    console.log('settings');
-    console.log(val);
     this.setState({ userId: val });
   }
   render() {
@@ -46,6 +46,8 @@ class Main extends React.Component {
           <Route exact path="/listings/:state--:city" component={Results} />
           <Route path="/listings/:state--:city/:id" component={ListingEntryDetails} />
           <Route path="/host" component={AddListing} />
+          <Route path="/settings" component={SettingsContainer} />
+          <Route path="/profile" component={ProfileContainer} />
           <Route exact path="/listings/hosted" component={HostListings} />
         </div>
       </BrowserRouter>
@@ -54,3 +56,4 @@ class Main extends React.Component {
 }
 
 ReactDOM.render(<Main />, document.getElementById('app'));
+
