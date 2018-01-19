@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import BookingWindow from './BookingWindow.jsx';
 import GMap from './GMap.jsx';
+import Gallery from './Gallery.jsx';
 
 import {
   ListGroup,
@@ -25,11 +26,7 @@ export default class ListingEntryDetails extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.location.state) {
-      this.setState({ listing: this.props.location.state.listing });
-    } else {
-      this.getListing();
-    }
+    this.getListing();
   }
 
   getListing() {
@@ -42,9 +39,22 @@ export default class ListingEntryDetails extends React.Component {
   }
 
   render() {
+    const style = {
+      image: {
+        backgroundImage: `url(${this.state.listing.pic_url})`,
+      },
+    };
     return (
-      <div>
-        <div className="listgroup-container">
+      <div className="list-entry-details-container">
+        <div className="container-fluid">
+          <div className="listing-img-div" aria-hidden="true" style={style.image} />
+          <Gallery
+            className="listing-img-component"
+            listing={this.state.listing}
+            images={[{ src: this.state.listing.pic_url }]}
+          />
+        </div>
+        <div className="listgroup-container container">
           <ListGroup className="listgroup-info">
             <ListGroupItem>
               <h3>{this.state.listing.name}</h3>
@@ -87,7 +97,6 @@ export default class ListingEntryDetails extends React.Component {
           </div>
 
           {/* <GMap latLong={this.state.latLong} /> */}
-          <img src={this.state.listing.pic_url} alt="listing-pic" />
         </div>
       </div>
     );
